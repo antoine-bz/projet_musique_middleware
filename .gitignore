@@ -15,5 +15,7 @@
 serveur
 client
 
+/.vscode
+
 # Ignore MP3 files starting with "current_"
 current_*.mp3
