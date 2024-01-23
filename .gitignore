@@ -1,0 +1,19 @@
+# Ignore executables
+*.exe
+*.out
+
+# Ignore object files
+*.o
+
+# Ignore static libraries
+*.a
+
+# Ignore shared libraries
+*.so
+
+# Other
+serveur
+client
+
+# Ignore MP3 files starting with "current_"
+current_*.mp3
