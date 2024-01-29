@@ -1,3 +1,35 @@
+#include <stdio.h>
+#include "libUtils.h"
+
+#define EXIT "exit"
+
+socket_t radio_socket;
+
+// Fonction d'envoi d'un message sur une socket
+void sendMessage(socket_t *sock, const char *message) {
+    send(sock->sock, message, strlen(message), 0);
+}
+
+// Fonction de réception d'un message sur une socket
+void receiveMessage(socket_t *sock, char *buffer, size_t buffer_size) {
+    recv(sock->sock, buffer, buffer_size, 0);
+}
+
+// Fonction d'ouverture d'un fichier
+FILE *openFile(const char *filename, const char *mode) {
+    return fopen(filename, mode);
+}
+
+// Fonction de réception de données sur une socket
+void receiveData(socket_t *sock, char *buffer, size_t buffer_size) {
+    recv(sock->sock, buffer, buffer_size, 0);
+}
+
+// Fonction de fermeture d'un fichier
+void closeFile(FILE *file) {
+    fclose(file);
+}
+
 // Function to send the catalog to the client
 void sendCatalog(socket_t *client_socket) {
     FILE *catalogFile = fopen("playlist.txt", "r");
