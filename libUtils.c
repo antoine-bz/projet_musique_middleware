@@ -1,6 +1,6 @@
 // Function to send the catalog to the client
 void sendCatalog(socket_t *client_socket) {
-    FILE *catalogFile = fopen("catalog.txt", "r");
+    FILE *catalogFile = fopen("playlist.txt", "r");
     buffer_t buffer;
 
     CHECK_FILE(catalogFile, "Error opening catalog file");
@@ -23,7 +23,6 @@ void requestCurrentSong(socket_t *client_socket) {
 
     // Send the request to the server
     envoyer(client_socket, request, NULL);
-
 }
 
 // Function to send the CurrentSong from the server to client
@@ -33,10 +32,7 @@ void sendCurrentSong(socket_t *client_socket) {
 
     // Send the request to the client
     envoyer(client_socket, request, NULL);
-
-
 }
-
 
 // Function to request the CurrentSong from the radio
 void requestCurrentSongFromRadio() {
@@ -67,4 +63,3 @@ void requestCurrentTimeFromRadio() {
     // Print or use the response as needed
     printf("CurrentTime from radio: %s\n", response);
 }
-
