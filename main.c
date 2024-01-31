@@ -1,8 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "proto.h"
-//#include "session.h"
+
+
+
+#ifdef CLIENT
+    
+#include "protoClient.h"
+
+#endif
+#ifdef SERVEUR
+
+#include "protoServer.h"
+
+#endif
+
 
 
 #define PORT_SVC 5000
