@@ -1,51 +1,30 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -g
-LDFLAGS = -lm
-SRC_DIR = .
-OBJ_DIR = .
-BIN_DIR = .
 
-# Liste des fichiers source
-CLIENT_SRC = $(SRC_DIR)/clientv2.c
-SERVER_SRC = $(SRC_DIR)/serveurv2.c
-UTILS_SRC = $(SRC_DIR)/libUtils.c
-SESSION_SRC = $(SRC_DIR)/session.c
-DATA_SRC = $(SRC_DIR)/data.c
+all: serveur client
 
-# Liste des fichiers objet
-CLIENT_OBJ = $(OBJ_DIR)/clientv2.o
-SERVER_OBJ = $(OBJ_DIR)/serveurv2.o
-UTILS_OBJ = $(OBJ_DIR)/libUtils.o
-SESSION_OBJ = $(OBJ_DIR)/session.o
-DATA_OBJ = $(OBJ_DIR)/data.o
+serveur: libInet.a 
+	gcc  main.c -DSERVEUR -o serveur -lInet -lProjet -L./
+	
 
-# Noms des exécutables
-CLIENT_EXE = $(BIN_DIR)/client
-SERVER_EXE = $(BIN_DIR)/server
+client: libInet.a libProjet.a
+	gcc  main.c -DCLIENT -o client -lInet -lProjet -L./
 
-all: client server
+libProjet.a: proto.o reqRep.o
+	ar -crs libProjet.a proto.o reqRep.o
+	rm -f *.o
 
-client: $(CLIENT_OBJ) $(UTILS_OBJ) $(SESSION_OBJ) $(DATA_OBJ)
-	$(CC) $(CFLAGS) -o $(CLIENT_EXE) $(CLIENT_OBJ) $(UTILS_OBJ) $(SESSION_OBJ) $(DATA_OBJ) $(LDFLAGS)
+libInet.a : session.o data.o
+	ar -crs libInet.a session.o data.o
+	rm -f *.o
 
-server: $(SERVER_OBJ) $(UTILS_OBJ) $(SESSION_OBJ) $(DATA_OBJ)
-	$(CC) $(CFLAGS) -o $(SERVER_EXE) $(SERVER_OBJ) $(UTILS_OBJ) $(SESSION_OBJ) $(DATA_OBJ) $(LDFLAGS)
+session.o: session.c session.h
+	gcc -c session.c
 
-$(CLIENT_OBJ): $(CLIENT_SRC)
-	$(CC) $(CFLAGS) -c -o $@ $<
-
-$(SERVER_OBJ): $(SERVER_SRC)
-	$(CC) $(CFLAGS) -c -o $@ $<
-
-$(UTILS_OBJ): $(UTILS_SRC)
-	$(CC) $(CFLAGS) -c -o $@ $<
-
-$(SESSION_OBJ): $(SESSION_SRC)
-	$(CC) $(CFLAGS) -c -o $@ $<
-
-$(DATA_OBJ): $(DATA_SRC)
-	$(CC) $(CFLAGS) -c -o $@ $<
+data.o: data.c data.h
+	gcc -c data.c
 
 clean:
-	rm -f $(OBJ_DIR)/*.o
-	rm -f $(CLIENT_EXE) $(SERVER_EXE)
+	rm -f *.o
+	rm -f serveur
+	rm -f client
+	rm -f libInet.a
+	rm -f libProjet.a
