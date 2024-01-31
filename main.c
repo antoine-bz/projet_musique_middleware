@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "proto.h"
-#include "reqRep.h"
 //#include "session.h"
 
 

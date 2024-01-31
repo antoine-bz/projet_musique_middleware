@@ -5,15 +5,12 @@ serveur: libInet.a
 	gcc  main.c -DSERVEUR -o serveur -lInet -lProjet -L./
 	
 
-client: libInet.a libProjet.a
-	gcc  main.c -DCLIENT -o client -lInet -lProjet -L./
+client: libInet.a
+	gcc  main.c -DCLIENT -o client -lInet -L./
 
-libProjet.a: proto.o reqRep.o
-	ar -crs libProjet.a proto.o reqRep.o
-	rm -f *.o
 
-libInet.a : session.o data.o
-	ar -crs libInet.a session.o data.o
+libInet.a : session.o data.o reqRep.o proto.o 
+	ar -crs libInet.a session.o data.o reqRep.o proto.o 
 	rm -f *.o
 
 session.o: session.c session.h

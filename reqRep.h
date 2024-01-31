@@ -18,7 +18,7 @@ typedef char buffer_t[MAX_BUFF];
 #define SEND_CURRENT_TIME_REQ 5
 #define CURRENT_TIME_RETURN   6
 
-typedef struct {
+typedef struct MusicMessage{
     int type; // type de message
     char current_music[MAX_BUFF]; // nom de la chanson courante
     int current_time; // temps courant de la chanson en millisec
