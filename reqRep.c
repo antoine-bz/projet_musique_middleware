@@ -33,17 +33,28 @@ void serializeMusicMessage(buffer_t buffer, MusicMessage *msg)
     switch (msg->type)
     {
     case 1: 
-        char *token = strtok(NULL, "|"); // Récupérer la partie de la chaîne après le délimiteur '|'
-        if (token != NULL) {
-            char *music = strtok(token, "/"); // Extraire le premier nom de musique
-            int index = 0;
-            while (music != NULL && index < MAX_BUFF) {
-                strncpy(msg->playlist[index], music, sizeof(msg->playlist[index]) - 1);
-                msg->playlist[index][sizeof(msg->playlist[index]) - 1] = '\0'; // Assurer une terminaison nulle
-                music = strtok(NULL, "/"); // Extraire le nom de musique suivant
-                index++;
+    char *token = strtok(NULL, "|"); // Récupérer la partie de la chaîne après le délimiteur '|'
+    if (token != NULL) {
+        char music[MAX_BUFF]; // Stocker temporairement chaque nom de musique
+        int index = 0;
+        char *ptr = token;
+        while (*ptr != '\0' && index < MAX_BUFF) {
+            int i = 0;
+            // Copier chaque caractère jusqu'à '/' ou la fin de la chaîne
+            while (*ptr != '/' && *ptr != '\0' && i < MAX_BUFF - 1) {
+                music[i] = *ptr;
+                ptr++;
+                i++;
+            }
+            music[i] = '\0'; // Assurer une terminaison nulle
+            strncpy(msg->playlist[index], music, sizeof(msg->playlist[index]) - 1);
+            msg->playlist[index][sizeof(msg->playlist[index]) - 1] = '\0'; // Assurer une terminaison nulle
+            index++;
+            if (*ptr == '/') {
+                ptr++; // Passer au prochain nom de musique s'il y en a un
             }
         }
+    }
         break;
 
     case 2:
