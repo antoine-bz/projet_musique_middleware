@@ -1,11 +1,12 @@
 
 #include "reqRep.h"
 
-void serializeMusicMessage(buffer_t buffer, MusicMessage *msg)
+void serializeMusicMessage(generic quoi, buffer_t buff)
 {
+    MusicMessage *msg = (MusicMessage *)quoi;
     ////////////////DEFINI TYPE/////////////////////
     char type[MAX_BUFF];
-    strcpy(type,strtok(buffer, "|"));
+    strcpy(type,strtok(buff, "|"));
 
     if (strcmp(type, "PLAYLIST_RETURN") == 0) {
         msg->type = 1;
@@ -78,38 +79,40 @@ void serializeMusicMessage(buffer_t buffer, MusicMessage *msg)
 
 }
 
-void deserializeMusicMessage(buffer_t buffer, MusicMessage *msg) {
+void deserializeMusicMessage(buffer_t buff, generic quoi) {
+
+    MusicMessage *msg = (MusicMessage *)quoi;
         char time_str[MAX_BUFF];
     switch (msg->type)
     {
     case 1:
-        strcpy(buffer, "PLAYLIST_RETURN|");
+        strcpy(buff, "PLAYLIST_RETURN|");
         for (int i = 0; i < MAX_BUFF; i++) {
-            strcat(buffer, msg->playlist[i]);
-            strcat(buffer, "/");
+            strcat(buff, msg->playlist[i]);
+            strcat(buff, "/");
         }
         break;
     case 2:
-        strcpy(buffer, "MUSIC_RETURN|");
-        strcat(buffer, msg->current_music);
+        strcpy(buff, "MUSIC_RETURN|");
+        strcat(buff, msg->current_music);
         break;
     case 3:
-        strcpy(buffer, "CURRENT_TIME_RETURN|");
+        strcpy(buff, "CURRENT_TIME_RETURN|");
         sprintf(time_str, "%d", msg->current_time);
-        strcat(buffer, time_str);
+        strcat(buff, time_str);
         break;
     case 4:
-        strcpy(buffer, "SEND_MUSIC_CHOICE|");
-        strcat(buffer, msg->current_music);
+        strcpy(buff, "SEND_MUSIC_CHOICE|");
+        strcat(buff, msg->current_music);
         break;
     case 5:
-        strcpy(buffer, "SEND_MUSIC_REQUEST|");
-        strcat(buffer, msg->current_music);
+        strcpy(buff, "SEND_MUSIC_REQUEST|");
+        strcat(buff, msg->current_music);
         break;
     case 6:
-        strcpy(buffer, "SEND_CURRENT_TIME_REQ|");
+        strcpy(buff, "SEND_CURRENT_TIME_REQ|");
         sprintf(time_str, "%d", msg->current_time);
-        strcat(buffer, time_str);
+        strcat(buff, time_str);
         break;
     default:
         break;

@@ -27,6 +27,6 @@ typedef struct MusicMessage {
 } MusicMessage;
 
 
-void serializeMusicMessage(buffer_t buffer, MusicMessage *msg);
+void serializeMusicMessage(generic quoi, buffer_t buff);
 
-void deserializeMusicMessage(buffer_t buffer, MusicMessage *msg);
+void deserializeMusicMessage(buffer_t buff, generic quoi);

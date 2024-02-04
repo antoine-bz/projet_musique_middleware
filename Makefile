@@ -1,11 +1,10 @@
 serveur: libServer.a 
 	gcc  main.c -DSERVEUR -o serveur -lServer -L./
-	rm -f *.a
+
 	
 
 client: libClient.a
 	gcc  main.c -DCLIENT -o client -lClient -L./
-	rm -f *.a
 
 
 libServer.a : session.o data.o reqRep.o protoServer.o 

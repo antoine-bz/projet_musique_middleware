@@ -7,20 +7,20 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
-#include <stdbool.h>
 
 #include "reqRep.h"
 
+#define TRUE 1
+#define FALSE 0
 
-
-FILE *currentMusicFile;
-int shared_variable=0;
 
 // on cree la memoire partagee
-int *elapsedTime;
-char *currentMusic;
-bool *isPlaying;
-int shm_id, shm_size;
+extern int *elapsedTime;
+extern char *currentMusic;
+extern int *isPlaying;
+extern int *isChoosing;
+extern int shm_id, shm_size;
+extern void *shm_ptr;
 
 void server (char *addrIPsrv, short server_port);
 

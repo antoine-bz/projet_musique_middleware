@@ -1,29 +1,43 @@
 #include "protoServer.h"
 
 
+int *elapsedTime;
+char *currentMusic;
+int *isPlaying;
+int  *isChoosing;
+int shm_id, shm_size;
+void *shm_ptr;
+
 
 void server (char *addrIPsrv, short server_port){
     socket_t server_socket;
     pid_t pid;
 
-
     // on cree la memoire partagee
     CHECK(shm_id = shm_open("maZone", O_CREAT | O_RDWR, S_IRWXU), "shm_open error");
 
-    // etalonnage du fichier
-    shm_size = sizeof(int)+ sizeof(char)*MAX_BUFF + sizeof(bool);
-    void *shm_ptr = mmap(0, shm_size, PROT_READ | PROT_WRITE, MAP_SHARED, shm_id, 0);
+   // Calculate file size
+    shm_size = sizeof(int) + sizeof(char) * MAX_BUFF + sizeof(int) + sizeof(int);
+
+    // Set the size of the shared memory object
+    CHECK(ftruncate(shm_id, shm_size) == 0, "ftruncate error");
+
+    // Map the shared memory
+    shm_ptr = mmap(0, shm_size, PROT_READ | PROT_WRITE, MAP_SHARED, shm_id, 0);
     CHECK_MAP(shm_ptr, "mmap error");
 
+
+    // on initialise les variables
     elapsedTime = (int *)shm_ptr;
     currentMusic = (char *)(shm_ptr + sizeof(int));
-    isPlaying = (bool *)(shm_ptr + sizeof(int) + sizeof(char)*MAX_BUFF);
+    isPlaying = (int *)(shm_ptr + sizeof(int) + sizeof(char) * MAX_BUFF);
+    isChoosing = (int *)(shm_ptr + sizeof(int) + sizeof(char) * MAX_BUFF + sizeof(int));
+
 
     // on initialise les variables
     *elapsedTime = 0;
-    strcpy(currentMusic, "");
-    *isPlaying = false;
-
+    *isPlaying = FALSE;
+    *isChoosing = FALSE;
 
     signal(SIGINT, signalHandler);
 
@@ -47,15 +61,30 @@ void server (char *addrIPsrv, short server_port){
         // Attendre une connexion entrante
         socket_t client_socket = accepterConnection(&server_socket);
 
-        // Gérer la requête du client
-        handle_client(&client_socket);
+        // Dialogue avec le client
+        pid_t pid = fork();
+        if (pid == 0) {
 
-        // Fermer la connexion avec le client
-        fermerSocket(&client_socket);
-    }
+            // Fermer le socket du serveur
+            fermerSocket(&server_socket);
+            
+            // Gérer la requête du client
+            handle_client(&client_socket);
 
-    // Le code ici ne sera jamais atteint, car le serveur est en boucle infinie
-    fermerSocket(&server_socket);
+            // Fermer la connexion avec le client
+            fermerSocket(&client_socket);
+            exit(0);
+        }
+        else if (pid == -1) {
+            perror("fork");
+            exit(1);
+        }
+        else {
+            // Fermer la connexion avec le client
+            fermerSocket(&client_socket);
+        }
+
+    } 
 
 }
 
@@ -64,20 +93,25 @@ void handle_client(socket_t *client_socket) {
     buffer_t request;
     MusicMessage musicMessage;
 
-    recevoir(client_socket, &musicMessage, deseriaiazdqsize);
+    recevoir(client_socket, &musicMessage, deserializeMusicMessage);
 
     // on fait un switch pour savoir quel commande a ete envoye par le client
     switch (musicMessage.type) {
         case SEND_MUSIC_REQUEST:
             // si currentMusic est vide, on envoie la playlist au client
-            if (strcmp(currentMusic, "") == 0) {
+            if (*isChoosing == FALSE && *isPlaying == FALSE) {
                 sendPlaylist(client_socket, request);
                 printf("Sent playlist to client\n\n");
             } else {
+                if (*isChoosing == TRUE) {
+                    while (*isChoosing == TRUE);
+                }
                 // sinon on envoie la musique courante au client
                 sendCurrentMusic(client_socket, request);
+                
             }
             break;
+
         case SEND_MUSIC_CHOICE:
 
             break;
@@ -85,6 +119,7 @@ void handle_client(socket_t *client_socket) {
         case SEND_CURRENT_TIME_REQ:
 
             break;
+        
         default:
             // on envoie un message d'erreur au client
             envoyer(client_socket, "Commande inconnue", NULL);
@@ -98,20 +133,6 @@ int sendCurrentMusic(socket_t *client_socket, buffer_t request) {
     char *file_name;
     int bytesRead;
     int i=0;
-
-    // on recupere le nom du fichier a telecharger
-    FILE *currentMusicFile2 = fopen("currentMusic.txt", "r");
-    
-    CHECK_FILE(currentMusicFile2, "Error opening file");
-
-    while ((buffer[i] = fgetc(currentMusicFile2)) != EOF) {
-        i++;
-    }
-    buffer[i] = '\0';
-    fclose(currentMusicFile2);
-
-
-    strcpy(currentMusic, buffer);
 
     // on recupere le nom du fichier a telecharger et on ajoute le dossier dans lequel il se trouve devant
     strcpy(file_name, "playlist/");
@@ -133,14 +154,13 @@ int sendCurrentMusic(socket_t *client_socket, buffer_t request) {
     envoyer(client_socket, EXIT, NULL);
 
     // envoyer elapsedTime au client
-    sprintf(buffer, "%f", *elapsedTime);
+    sprintf(buffer, "%d", *elapsedTime);
     envoyer(client_socket, buffer, NULL);    
 
     recevoir(client_socket, buffer, NULL);
     if (strcmp(buffer, "OK") != 0) {
         exit(EXIT_FAILURE);
     }
-
 
     fclose(file);
 
@@ -170,8 +190,13 @@ int sendPlaylist(socket_t *client_socket, buffer_t request) {
 
     musicMessage.type = PLAYLIST_RETURN;
 
+    fclose(file);
+
+    // on met isChoosing a TRUE pour dire que le client est en train de choisir une musique
+    isChoosing = TRUE;
+
     // on envoie musicMessage au client
-    envoyer(client_socket, &musicMessage, sizeof(musicMessage));
+    envoyer(client_socket, &musicMessage, *serializeMusicMessage);
 }
 
 
@@ -187,24 +212,25 @@ void myRadio(){
     FILE *file = fopen("playlist.txt", "r");
 
     CHECK_FILE(file, "Error opening file");
+
+    while (strcmp(currentMusic, "") == 0) {
+        sleep(1);
+        printf("Waiting for client to choose a music...\n");
+    }
     
-    // on lit le fichier ligne par ligne
+    // on lit le fichier ligne par ligne a partir de la musique courante
     while ((read = getline(&line, &len, file)) != -1) {
-        *elapsedTime=0;
-        
         // on recupere le nom du fichier et la durée
         token = strtok(line, ";");
         file_name = token;
-        token = strtok(NULL, ";");
-        
-        //on met le nom du fichier dans  currentMusic.txt
-        currentMusicFile = fopen("currentMusic.txt", "w");
-        if (currentMusicFile == NULL) {
-            perror("Error opening file");
-            return;
+        if (strcmp(file_name, currentMusic) != 0) {
+            continue;
         }
-        fprintf(currentMusicFile, "%s", file_name);
-        fclose(currentMusicFile);
+        else {
+            break;
+        }
+
+        token = strtok(NULL, ";");        
         
         // on formate la durée pour pouvoir l'utiliser dans sleep
         minutes = strtok(token, ":");
@@ -213,18 +239,16 @@ void myRadio(){
 
         sleep(2);
         printf("Playing %s for %d seconds\n\n", file_name, totalSeconds);
-        // on attend la durée de la musique et on incremente elapsedTime de 0.0001s sachant que totalSeconds est en secondes
-        for (int i=0; i<totalSeconds*1000; i++) {
-            usleep(1000);
+        // on attend la durée de la musique et on incremente tempsEcoule de 0.0001s sachant que totalSeconds est en secondes
+        for (int i=0; i<totalSeconds*10000; i++) {
             *elapsedTime += 1;
+            usleep(100);
         }
-        
     }
 
-    CHECK(munmap(elapsedTime, shm_size), "munmap error");
-    CHECK(close(shared_variable), "close error");
+    CHECK(munmap(shm_ptr, shm_size) == 0, "munmap error");
+    CHECK(close(shm_id) == 0, "close error");
     CHECK(shm_unlink("maZone"), "shm_unlink error");
-    fclose(currentMusicFile);
     fclose(file);
     if (line)
         free(line);
@@ -238,12 +262,8 @@ static void signalHandler(int sig) {
         case SIGINT:
             // Fermer le fichier et terminer le programme lorsque CTRL+C est détecté
             printf("\nFermeture du serveur...\n");
-            if (currentMusicFile != NULL) {
-                fclose(currentMusicFile);
-            }
-            CHECK(munmap(elapsedTime, shm_size), "munmap error");
-            CHECK(close(shared_variable), "close error");
-            CHECK(shm_unlink("maZone"), "shm_unlink error");
+            CHECK(munmap(shm_ptr, shm_size) == 0, "munmap error");
+            CHECK(close(shm_id) == 0, "close error"); 
             exit(EXIT_SUCCESS);
             break;
 

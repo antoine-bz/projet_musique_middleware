@@ -35,11 +35,17 @@ int main(int argc, char *argv[]) {
     // gcc useLiNet.c -DSERVEUR -o serveur
     #ifdef SERVEUR
         // Vérification des arguments
-        if(argc != 3) {
-                printf("Usage : %s <IP> <PORT>\n", argv[0]);
-                exit(-1);
+        if(argc == 3) {
+            server(argv[1], atoi(argv[2]));
         }
-        
+        else if (argc == 1)
+        {
+            server(INADDR_SVC, PORT_SVC);
+        }
+        else{
+            printf("Usage : %s <IP> <PORT>\n", argv[0]);
+            exit(-1);
+        }
         
     #endif
 }
