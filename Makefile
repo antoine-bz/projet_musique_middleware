@@ -4,7 +4,7 @@ serveur: libServer.a
 	
 
 client: libClient.a
-	gcc  main.c -DCLIENT -o client -lClient -L./
+	gcc  main.c -lmpg123 -lao -lm -DCLIENT -o client -lClient -L./ 
 
 
 libServer.a : session.o data.o reqRep.o protoServer.o 

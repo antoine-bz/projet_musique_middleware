@@ -92,8 +92,9 @@ void server (char *addrIPsrv, short server_port){
 void handle_client(socket_t *client_socket) {
     buffer_t request;
     MusicMessage musicMessage;
+    MusicMessage musicResponse;
 
-    recevoir(client_socket, &musicMessage, deserializeMusicMessage);
+    recevoir(client_socket, &musicMessage, (pFct) deserializeMusicMessage);
 
     // on fait un switch pour savoir quel commande a ete envoye par le client
     switch (musicMessage.type) {
@@ -113,10 +114,15 @@ void handle_client(socket_t *client_socket) {
             break;
 
         case SEND_MUSIC_CHOICE:
+            // on met la musique choisie par le client dans currentMusic
+            strcpy(currentMusic, musicMessage.current_music);
 
             break;
 
         case SEND_CURRENT_TIME_REQ:
+            // on envoie elapsedTime au client
+            sprintf(request, "%d", *elapsedTime);
+
 
             break;
         
@@ -196,7 +202,7 @@ int sendPlaylist(socket_t *client_socket, buffer_t request) {
     isChoosing = TRUE;
 
     // on envoie musicMessage au client
-    envoyer(client_socket, &musicMessage, *serializeMusicMessage);
+    envoyer(client_socket, &musicMessage,(pFct) serializeMusicMessage);
 }
 
 
