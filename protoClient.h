@@ -5,6 +5,10 @@
 #include <sys/types.h>
 #include <signal.h>
 #include <sys/wait.h>
+#include <mpg123.h>
+#include <ao/ao.h>
+
+#define BITS 8
 
 
 void client (char *addrIPsrv, short port);
