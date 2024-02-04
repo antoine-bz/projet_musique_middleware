@@ -1,5 +1,7 @@
 
 #include "data.h"
+#include <mpg123.h>
+#include <ao/ao.h>
 
 #define CHECK(sts,msg) if ((sts) == -1) {perror(msg);exit(-1);}
 #define CHECK_FILE(sts,msg) if ((sts) == NULL) {perror(msg);exit(-1);}
@@ -8,6 +10,7 @@
 
 #define MAX_BUFF 1024
 #define EXIT "exit"
+#define BITS 8
 
 typedef char buffer_t[MAX_BUFF];
 

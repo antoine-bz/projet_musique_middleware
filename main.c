@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
                 printf("Usage : %s <IP> <PORT>\n", argv[0]);
                 exit(-1);
         }
-        
+        client(argv[1], atoi(argv[2]));
     #endif
     // gcc useLiNet.c -DSERVEUR -o serveur
     #ifdef SERVEUR
