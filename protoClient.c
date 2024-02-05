@@ -60,6 +60,7 @@ void client(char *addrIPsrv, short port) {
     socket_t sockDial;
     char reponse[MAX_BUFF];
     MusicMessage buffer;
+    int choix, tailleTableau;
 
     // Demande d’une connexion au service
     sockDial.mode = SOCK_STREAM;
@@ -74,7 +75,7 @@ void client(char *addrIPsrv, short port) {
     // Gestion de la musique courante
     if (buffer.type == PLAYLIST_RETURN) {
         printf("\nPlaylist:\n");
-        int tailleTableau = sizeof(buffer.playlist) / sizeof(buffer.playlist[0]);
+        tailleTableau = sizeof(buffer.playlist) / sizeof(buffer.playlist[0]);
         //strlen(buffer.playlist) a voir si ca marche
         for (int i = 0; i < tailleTableau; i++)
         {
@@ -82,7 +83,6 @@ void client(char *addrIPsrv, short port) {
                 printf("%d - %s\n", i, buffer.playlist[i]);
         }
         printf("\nChoisir une musique:\n");
-        int choix;
         scanf("%d", &choix);
         strcpy( buffer.current_music,buffer.playlist[choix]);
         buffer.type = SEND_MUSIC_CHOICE;
@@ -98,6 +98,8 @@ void client(char *addrIPsrv, short port) {
 
 
         buffer.type = SEND_MUSIC_REQUEST ;
+        buffer.current_time = 0;
+        buffer.current_music[0] = '\0';
         envoyer(&sockDial, &buffer, (pFct) serializeMusicMessage);
         recevoir(&sockDial, &buffer, (pFct) deserializeMusicMessage);
     }

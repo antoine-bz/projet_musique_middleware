@@ -1,8 +1,10 @@
 serveur: libServer.a 
 	gcc  main.c -DSERVEUR -o serveur -lServer -L./
+	rm -f *.a
 
 client: libClient.a
 	gcc main.c -I. -L. -L/usr/lib/x86_64-linux-gnu/ -o client -DCLIENT -lClient -lmpg123 -lao -lm -L./
+	rm -f *.a
 
 libServer.a : session.o data.o reqRep.o protoServer.o 
 	ar -crs libServer.a session.o data.o reqRep.o protoServer.o 

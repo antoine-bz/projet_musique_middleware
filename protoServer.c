@@ -104,6 +104,7 @@ void handle_client(socket_t *client_socket) {
             if (*isChoosing == FALSE && *isPlaying == FALSE) {
                 sendPlaylist(client_socket, request);
             } else {
+                // si le client est en train de choisir une musique, on attend qu'il ait fini
                 if (*isChoosing == TRUE) {
                     while (*isChoosing == TRUE);
                 }
@@ -115,7 +116,7 @@ void handle_client(socket_t *client_socket) {
         case SEND_MUSIC_CHOICE:
             printf("SEND_MUSIC_CHOICE received from client\n\n");
 
-            printf("Received %s from client\n\n", musicMessage.current_music);
+            printf("Received choice %s from client\n\n", musicMessage.current_music);
             // on met la musique choisie par le client dans currentMusic
             strcpy(currentMusic, musicMessage.current_music);
             *isChoosing = FALSE;
@@ -161,6 +162,8 @@ void sendCurrentMusic(socket_t *client_socket, buffer_t request) {
 
     musicMessage.type = MUSIC_RETURN;
     strcpy(musicMessage.current_music, currentMusic);
+
+    envoyer(client_socket, &musicMessage, (pFct) serializeMusicMessage);
 
     envoyer(client_socket, "OK", NULL);
     envoyer(client_socket, currentMusic, NULL);
