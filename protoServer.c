@@ -36,6 +36,7 @@ void server (char *addrIPsrv, short server_port){
 
     // on initialise les variables
     *elapsedTime = 0;
+    strcpy(currentMusic, "");
     *isPlaying = FALSE;
     *isChoosing = FALSE;
 
@@ -255,6 +256,7 @@ void myRadio(){
         minutes = strtok(token, ":");
         seconds = strtok(NULL, ":");
         totalSeconds = atoi(minutes)*60 + atoi(seconds);
+        printf("Playing %s for %d seconds\n\n", file_name, totalSeconds);
 
         sleep(2);
         printf("Playing %s for %d seconds\n\n", file_name, totalSeconds);
