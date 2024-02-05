@@ -89,7 +89,7 @@ void client(char *addrIPsrv, short port) {
 
         buffer.type = SEND_MUSIC_REQUEST ;
         envoyer(&sockDial, &buffer, (pFct) serializeMusicMessage);
-        recevoir(&sockDial, &buffer, (pFct) deserializeMusicMessage);
+        recevoirMusique(&sockDial);
     }
 
    
@@ -109,10 +109,42 @@ void client(char *addrIPsrv, short port) {
         envoyer(&sockDial, &buffer, (pFct) serializeMusicMessage);
         recevoir(&sockDial, &buffer, (pFct) deserializeMusicMessage);
     }
-
-
     // Fermeture de la connexion
     fermerSocket(&sockDial);
 }
 
 
+
+
+void recevoirMusique(socket_t *client_socket){
+    char buffer[MAX_BUFF];
+    char new_file_name [MAX_BUFF];
+    recevoir(client_socket, buffer, NULL);
+    if (strcmp(buffer, "OK") != 0) {
+        exit(EXIT_FAILURE);
+    }
+
+    // recevoir le nom du fichier
+    recevoir(client_socket, buffer, NULL);
+
+    strcpy(new_file_name, "current_");
+    strcat(new_file_name, buffer);
+
+    // supprimer les anciens fichiers
+    system("rm -f current_*.mp3");   
+
+    // Recevoir et sauvegarder le fichier MP3
+    remove(new_file_name);
+    do {
+        // ecrire dans le fichier octet par octet
+        FILE *file = fopen(new_file_name, "ab");
+        CHECK_FILE(file, "fopen");
+        // recevoir le contenu du fichier mp3
+        recevoir(client_socket, buffer, NULL);
+        if (strcmp(buffer, EXIT) != 0) {
+            // ecrire dans le fichier octet par octet
+            fwrite(buffer, 1, MAX_BUFF, file);
+        }
+        fclose(file);
+    } while (strcmp(buffer, EXIT) != 0);
+}

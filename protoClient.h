@@ -13,5 +13,5 @@
 
 void client (char *addrIPsrv, short port);
 void lancerMusique(char *file_name, int tempsEcoule) ;
-static void signalHandler(int sig);
+void recevoirMusique(socket_t *client_socket);
 void client (char *addrIPsrv, short port);
