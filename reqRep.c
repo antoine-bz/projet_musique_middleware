@@ -1,7 +1,7 @@
 
 #include "reqRep.h"
 
-void serializeMusicMessage(generic quoi, buffer_t buff)
+void deserializeMusicMessage(buffer_t buff, generic quoi)
 {
     MusicMessage *msg = (MusicMessage *)quoi;
     ////////////////DEFINI TYPE/////////////////////
@@ -79,7 +79,7 @@ void serializeMusicMessage(generic quoi, buffer_t buff)
 
 }
 
-void deserializeMusicMessage(buffer_t buff, generic quoi) {
+void serializeMusicMessage(generic quoi, buffer_t buff){
 
     MusicMessage *msg = (MusicMessage *)quoi;
         char time_str[MAX_BUFF];

@@ -78,7 +78,8 @@ void client(char *addrIPsrv, short port) {
         //strlen(buffer.playlist) a voir si ca marche
         for (int i = 0; i < tailleTableau; i++)
         {
-            printf("%ls - %s\n", &i, buffer.playlist[i]);
+            if (strlen(buffer.playlist[i]) > 3)
+                printf("%d - %s\n", i, buffer.playlist[i]);
         }
         printf("\nChoisir une musique:\n");
         int choix;
@@ -89,7 +90,15 @@ void client(char *addrIPsrv, short port) {
 
         buffer.type = SEND_MUSIC_REQUEST ;
         envoyer(&sockDial, &buffer, (pFct) serializeMusicMessage);
+        recevoir(&sockDial, &buffer, (pFct) deserializeMusicMessage);
+    }
+
+    if(buffer.type == MUSIC_RETURN){
         recevoirMusique(&sockDial);
+    }
+    else{
+        printf("Erreur de reception de la musique\n");
+        exit(EXIT_FAILURE);
     }
 
    
