@@ -19,6 +19,7 @@ typedef char buffer_t[MAX_BUFF];
 #define MUSIC_RETURN          4
 #define SEND_CURRENT_TIME_REQ 5
 #define CURRENT_TIME_RETURN   6
+#define QUIT                  7
 
 typedef struct MusicMessage {
     int type; // type de message

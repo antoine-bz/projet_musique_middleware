@@ -56,7 +56,6 @@ void server (char *addrIPsrv, short server_port){
         myRadio();
     }
 
-
     while (1) {
         // Attendre une connexion entrante
         socket_t client_socket = accepterConnection(&server_socket);
@@ -66,28 +65,25 @@ void server (char *addrIPsrv, short server_port){
         if (pid == 0) {
 
             // Fermer le socket du serveur
-            //fermerSocket(&server_socket);
+            fermerSocket(&server_socket);
             
+            while (1)
+            {
                 // Gérer la requête du client
                 handle_client(&client_socket);
-            
-
-            printf("Client disconnected\n\n");
-
-            // Fermer la connexion avec le client
-            fermerSocket(&client_socket);
-            exit(0);
+                
+            }
         }
         else if (pid == -1) {
             perror("fork");
             exit(1);
         }
         else {
-            // Fermer la connexion avec le client
-            fermerSocket(&client_socket);
+        // Fermer la connexion avec le client
+        fermerSocket(&client_socket);
         }
 
-    } 
+    }
 
 }
 
@@ -106,7 +102,6 @@ void handle_client(socket_t *client_socket) {
             // si currentMusic est vide, on envoie la playlist au client
             if (*isChoosing == FALSE && *isPlaying == FALSE) {
                 sendPlaylist(client_socket, request);
-                printf("Sent playlist to client\n\n");
             } else {
                 if (*isChoosing == TRUE) {
                     while (*isChoosing == TRUE);
@@ -123,17 +118,22 @@ void handle_client(socket_t *client_socket) {
             // on met la musique choisie par le client dans currentMusic
             strcpy(currentMusic, musicMessage.current_music);
             *isChoosing = FALSE;
-            printf("Client chose %s\n\n", currentMusic);
+
+            envoyer(client_socket, "OK", NULL);
 
             break;
 
         case SEND_CURRENT_TIME_REQ:
             printf("SEND_CURRENT_TIME_REQ received from client\n\n");
-
             // on envoie elapsedTime au client
             sprintf(request, "%d", *elapsedTime);
+            break;
 
-
+        case QUIT:
+            printf("Client disconnected\n\n");
+            // on ferme la connexion avec le client
+            fermerSocket(client_socket);
+            exit(0);
             break;
         
         default:
@@ -144,7 +144,7 @@ void handle_client(socket_t *client_socket) {
 }
 
 
-int sendCurrentMusic(socket_t *client_socket, buffer_t request) {
+void sendCurrentMusic(socket_t *client_socket, buffer_t request) {
     buffer_t buffer;
     char *file_name;
     int bytesRead;
@@ -175,12 +175,11 @@ int sendCurrentMusic(socket_t *client_socket, buffer_t request) {
     fclose(file);
 
     printf("Sent %s to client\n\n", currentMusic);
-    return 1;
 }
 
 
 
-int sendPlaylist(socket_t *client_socket, buffer_t request) {
+void sendPlaylist(socket_t *client_socket, buffer_t request) {
     MusicMessage musicMessage;
 
     // on recupere le nom des musiques dans le fichier playlist.txt et on les met dans musicMessage.playlist
@@ -205,7 +204,9 @@ int sendPlaylist(socket_t *client_socket, buffer_t request) {
     musicMessage.type = PLAYLIST_RETURN;
 
     fclose(file);
-
+    if (line)
+        free(line);
+    
     // on met isChoosing a TRUE pour dire que le client est en train de choisir une musique
     *isChoosing = TRUE;
 
@@ -213,13 +214,6 @@ int sendPlaylist(socket_t *client_socket, buffer_t request) {
     printf("Sending playlist to client...\n");
     // on envoie musicMessage au client
     envoyer(client_socket, &musicMessage,(pFct) serializeMusicMessage);
-
-    // afficher la playlist
-    printf("Playlist:\n");
-    for (int i = 0; i < MAX_BUFF; i++) {
-        if (strlen(musicMessage.playlist[i]) > 3)
-            printf("%d - %s\n", i, musicMessage.playlist[i]);
-    }
 }
 
 
@@ -228,6 +222,7 @@ void myRadio(){
     size_t len = 0;
     ssize_t read;
     char * token = malloc(MAX_BUFF);
+    char *token2 = malloc(MAX_BUFF);
     char *file_name = malloc(MAX_BUFF);
     char *minutes = malloc(MAX_BUFF);
     char *seconds = malloc(MAX_BUFF);
@@ -236,22 +231,24 @@ void myRadio(){
 
     CHECK_FILE(file, "Error opening file");
 
-    while (strcmp(currentMusic, "") == 0) {
-        sleep(1);
-    }
-    
-    // on lit le fichier ligne par ligne a partir de la musique courante
+    while (strlen(currentMusic) == 0);
+    *isPlaying = TRUE;
+
+    // on lit le fichier ligne par ligne a partir de la musique courante et on commence a jouer la musique a partir de la musique courante
     while ((read = getline(&line, &len, file)) != -1) {
-        // on recupere le nom du fichier et la durée
-        token = strtok(line, ";");
-        file_name = token;
+        token2 = strtok(line, ";");
+        file_name = token2;
         if (strcmp(file_name, currentMusic) != 0) {
             continue;
         }
         else {
             break;
         }
-
+    }
+    do{
+        // on recupere le nom du fichier et la durée
+        token = strtok(line, ";");
+        file_name = token;
         token = strtok(NULL, ";");        
         
         // on formate la durée pour pouvoir l'utiliser dans sleep
@@ -266,7 +263,7 @@ void myRadio(){
             *elapsedTime += 1;
             usleep(100);
         }
-    }
+    } while ((read = getline(&line, &len, file)) != -1);
 
     CHECK(munmap(shm_ptr, shm_size) == 0, "munmap error");
     CHECK(close(shm_id) == 0, "close error");

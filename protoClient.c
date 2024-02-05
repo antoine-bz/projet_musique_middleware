@@ -74,7 +74,7 @@ void client(char *addrIPsrv, short port) {
     // Gestion de la musique courante
     if (buffer.type == PLAYLIST_RETURN) {
         printf("\nPlaylist:\n");
-    int tailleTableau = sizeof(buffer.playlist) / sizeof(buffer.playlist[0]);
+        int tailleTableau = sizeof(buffer.playlist) / sizeof(buffer.playlist[0]);
         //strlen(buffer.playlist) a voir si ca marche
         for (int i = 0; i < tailleTableau; i++)
         {
@@ -84,9 +84,18 @@ void client(char *addrIPsrv, short port) {
         printf("\nChoisir une musique:\n");
         int choix;
         scanf("%d", &choix);
-        strcpy(buffer.playlist[choix], buffer.current_music);
+        strcpy( buffer.current_music,buffer.playlist[choix]);
         buffer.type = SEND_MUSIC_CHOICE;
+        buffer.current_time = 0;
+        
         envoyer(&sockDial, &buffer, (pFct) serializeMusicMessage);
+        recevoir(&sockDial, &reponse, NULL);
+
+        if (strcmp(reponse, "OK") != 0) {
+            printf("Erreur de reception du choix\n");
+            exit(EXIT_FAILURE);
+        }
+
 
         buffer.type = SEND_MUSIC_REQUEST ;
         envoyer(&sockDial, &buffer, (pFct) serializeMusicMessage);
@@ -104,9 +113,6 @@ void client(char *addrIPsrv, short port) {
    
     while (1)
     {
-
-        // SEND_CURRENT_TIME_REQ
-
         buffer.type = SEND_CURRENT_TIME_REQ ;
         envoyer(&sockDial, &buffer, (pFct) serializeMusicMessage);
         recevoir(&sockDial, &buffer, (pFct) deserializeMusicMessage);
