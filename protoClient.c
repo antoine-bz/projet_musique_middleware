@@ -1,5 +1,5 @@
 #include "protoClient.h"
-
+socket_t sockDial;
 
 //fct pour lancer une musique
 void lancerMusique(char *file_name, int tempsEcoule) {
@@ -22,7 +22,7 @@ void lancerMusique(char *file_name, int tempsEcoule) {
     ao_sample_format format;
     long rate;
     int channels, encoding;
-
+    
     ao_initialize();
     driver = ao_default_driver_id();
     mpg123_getformat(mh, &rate, &channels, &encoding);
@@ -57,10 +57,11 @@ void lancerMusique(char *file_name, int tempsEcoule) {
 
 
 void client(char *addrIPsrv, short port) {
-    socket_t sockDial;
     char reponse[MAX_BUFF];
     MusicMessage buffer;
     int choix, tailleTableau;
+
+    signal(SIGINT, signalHandler);
 
     // Demande d’une connexion au service
     sockDial.mode = SOCK_STREAM;
@@ -95,9 +96,7 @@ void client(char *addrIPsrv, short port) {
             printf("Erreur de reception du choix\n");
             exit(EXIT_FAILURE);
         }
-        printf("OK\n");
-
-
+        
         buffer.type = SEND_MUSIC_REQUEST ;
         buffer.current_time = 0;
         buffer.current_music[0] = '\0';
@@ -114,19 +113,20 @@ void client(char *addrIPsrv, short port) {
     }
 
    
-    while (1)
-    {
+    //while (1)
+    //{
         buffer.type = SEND_CURRENT_TIME_REQ ;
         envoyer(&sockDial, &buffer, (pFct) serializeMusicMessage);
         recevoir(&sockDial, &buffer, (pFct) deserializeMusicMessage);
 
+
         lancerMusique(buffer.current_music, buffer.current_time);
 
-        sleep(2);
+        /*sleep(2);
         buffer.type = SEND_MUSIC_REQUEST ;
         envoyer(&sockDial, &buffer, (pFct) serializeMusicMessage);
         recevoir(&sockDial, &buffer, (pFct) deserializeMusicMessage);
-    }
+    }*/
     // Fermeture de la connexion
     fermerSocket(&sockDial);
 }
@@ -162,4 +162,18 @@ void recevoirMusique(socket_t *client_socket, char * nomMusique){
         }
         fclose(file);
     } while (strcmp(buffer, EXIT) != 0);
+}
+
+static void signalHandler(int sig) {
+    switch (sig) {
+        case SIGINT:
+
+            fermerSocket(&sockDial);
+            exit(EXIT_SUCCESS);
+            break;
+
+        default:
+            printf("Signal inconnu\n");
+            break;
+    }
 }

@@ -119,8 +119,6 @@ void handle_client(socket_t *client_socket) {
             printf("Received choice %s from client\n\n", musicMessage.current_music);
             // on met la musique choisie par le client dans currentMusic
             strcpy(currentMusic, musicMessage.current_music);
-            *isChoosing = FALSE;
-
             envoyer(client_socket, "OK", NULL);
 
             break;
@@ -129,6 +127,10 @@ void handle_client(socket_t *client_socket) {
             printf("SEND_CURRENT_TIME_REQ received from client\n\n");
             // on envoie elapsedTime au client
             sprintf(request, "%d", *elapsedTime);
+            musicMessage.type = CURRENT_TIME_RETURN;
+            musicMessage.current_time = *elapsedTime;
+            envoyer(client_socket, &musicMessage, (pFct) serializeMusicMessage);
+            
             break;
 
         case QUIT:
@@ -242,20 +244,12 @@ void myRadio(){
     CHECK_FILE(file, "Error opening file");
 
     while (strlen(currentMusic) == 0);
-    *isPlaying = TRUE;
 
     // on lit le fichier ligne par ligne a partir de la musique courante et on commence a jouer la musique a partir de la musique courante
     while ((read = getline(&line, &len, file)) != -1) {
-        token2 = strtok(line, ";");
-        file_name = token2;
-        if (strcmp(file_name, currentMusic) != 0) {
-            continue;
-        }
-        else {
-            break;
-        }
-    }
-    do{
+        *elapsedTime=0;
+        
+
         // on recupere le nom du fichier et la durée
         token = strtok(line, ";");
         file_name = token;
@@ -268,13 +262,16 @@ void myRadio(){
         printf("Playing %s for %d seconds\n\n", file_name, totalSeconds);
 
         sleep(2);
+
+        *isChoosing = FALSE;
+        *isPlaying = TRUE;
         printf("Playing %s for %d seconds\n\n", file_name, totalSeconds);
-        // on attend la durée de la musique et on incremente tempsEcoule de 0.0001s sachant que totalSeconds est en secondes
-        for (int i=0; i<totalSeconds*10000; i++) {
+        // on attend la durée de la musique et on incremente tempsEcoule de 1 tout les milliseconds sachant que totalSeconds est en secondes
+        for (int i=0; i<totalSeconds*1000; i++) {
+            usleep(1000);
             *elapsedTime += 1;
-            usleep(100);
         }
-    } while ((read = getline(&line, &len, file)) != -1);
+    }
 
     CHECK(munmap(shm_ptr, shm_size) == 0, "munmap error");
     CHECK(close(shm_id) == 0, "close error");
