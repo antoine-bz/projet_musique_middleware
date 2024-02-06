@@ -130,8 +130,6 @@ static void signalHandler(int sig) {
     }
 }
 
-
-
 void lancerMusique(char *file_name, int tempsEcoule) {
     mpg123_handle *mh;
     unsigned char *buffer;
@@ -167,13 +165,25 @@ void lancerMusique(char *file_name, int tempsEcoule) {
     buffer_size = mpg123_outblock(mh);
     buffer = (unsigned char*)malloc(buffer_size * sizeof(unsigned char));
 
-    // Lire et jouer le fichier MP3 à partir du temps écoulé
+    // Démarrer la lecture à partir du temps écoulé
     long startingFrame = (long)((tempsEcoule / 1000.0) * rate);
     mpg123_seek_frame(mh, startingFrame, SEEK_SET);
 
     printf("Lecture du fichier MP3\n");
+    
+    int mute = 0; // Variable pour le statut de sourdine
+
     while (mpg123_read(mh, buffer, buffer_size, &done) == MPG123_OK) {
-        ao_play(device, buffer, done);
+        
+        int ch = getchar(); // Obtenir la touche pressée
+        if (ch == 'm' || ch == 'M') { // Si 'm' ou 'M' est pressé, activer/désactiver la sourdine
+        printf("mute %d\n", mute);
+            mute = !mute;    
+        }
+        
+        if (!mute) { // Si la sourdine n'est pas activée, jouer le son
+            ao_play(device, buffer, done);
+        }
     }
 
     // Nettoyer et fermer
