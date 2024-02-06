@@ -10,8 +10,7 @@ void client(char *addrIPsrv, short port) {
     MusicMessage buffer;
     int choix, tailleTableau;
 
-    pid_t pid;
-
+    
     signal(SIGINT, signalHandler);
 
     // on cree la memoire 
@@ -27,24 +26,7 @@ void client(char *addrIPsrv, short port) {
     // on initialise les variables
     mute = (int *) mmap(0, shm_size, PROT_READ | PROT_WRITE, MAP_SHARED, shm_id, 0);
     CHECK_MAP(mute, "mmap error");
-
-    // on creer un processus fils qui verifie que le client appuie sur m pour mute ou unmute
-
-    pid = fork();
-    CHECK(pid, "fork error");
-    if (pid == 0) {
-        while (1) {
-            char c = getchar();
-            if (c == 'm') {
-                *mute = TRUE;
-            } else if (c == 'u') {
-                *mute = FALSE;
-            }
-        }
-    }
     
-
-
     // Demande d’une connexion au service
     sockDial.mode = SOCK_STREAM;
     sockDial.sock = connecter(addrIPsrv, port);
@@ -96,8 +78,8 @@ void client(char *addrIPsrv, short port) {
     }
 
    
-    //while (1)
-    //{
+    while (1)
+    {
 
         strcpy(musicName, "current_");
         strcat(musicName, buffer.current_music);
@@ -110,11 +92,11 @@ void client(char *addrIPsrv, short port) {
 
         lancerMusique(musicName, buffer.current_time);
 
-        /*sleep(2);
+        sleep(6);
         buffer.type = SEND_MUSIC_REQUEST ;
         envoyer(&sockDial, &buffer, (pFct) serializeMusicMessage);
         recevoir(&sockDial, &buffer, (pFct) deserializeMusicMessage);
-    }*/
+    }
     // Fermeture de la connexion
     fermerSocket(&sockDial);
 }
@@ -180,6 +162,7 @@ void lancerMusique(char *file_name, int tempsEcoule) {
     size_t buffer_size;
     size_t done;
     int err;
+    pid_t pid;
 
     // Initialiser mpg123
     mpg123_init();
@@ -214,14 +197,25 @@ void lancerMusique(char *file_name, int tempsEcoule) {
     mpg123_seek_frame(mh, startingFrame, SEEK_SET);
 
     printf("Lecture du fichier MP3\n");
-    
+    pid = fork();
+    CHECK(pid, "fork error");
+    if (pid == 0) {
+        while (1) {
+            char c = getchar();
+            if (c == 'm') {
+                *mute = TRUE;
+            } else if (c == 'u') {
+                *mute = FALSE;
+            }
+        }
+    }
     *mute = 0; // Variable pour le statut de sourdine
 
     while (mpg123_read(mh, buffer, buffer_size, &done) == MPG123_OK) {
         
-        if (!(*mute)) { // Si la sourdine n'est pas activée, jouer le son
+        //if (!(*mute)) { // Si la sourdine n'est pas activée, jouer le son
             ao_play(device, buffer, done);
-        }
+        //}
     }
 
     // Nettoyer et fermer
