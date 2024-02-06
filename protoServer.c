@@ -57,6 +57,22 @@ void server (char *addrIPsrv, short server_port){
         myRadio();
     }
 
+    // on affiche les variables partagees dans un processus fils toutes les 10 secondes
+    pid = fork();
+    if (pid == -1) {
+        perror("Erreur lors de la création du processus fils");
+        exit(EXIT_FAILURE);
+    } else
+    if (pid == 0) {
+        while (1) {
+            printf("elapsedTime: %d\n", *elapsedTime);
+            printf("currentMusic: %s\n", currentMusic);
+            printf("isPlaying: %d\n", *isPlaying);
+            printf("isChoosing: %d\n", *isChoosing);
+            sleep(10);
+        }
+    }
+
     while (1) {
         // Attendre une connexion entrante
         socket_t client_socket = accepterConnection(&server_socket);
@@ -159,12 +175,11 @@ void sendCurrentMusic(socket_t *client_socket) {
     strcpy(bufferMusic.current_music, currentMusic);
     // on recupere le nom du fichier a telecharger et on ajoute le dossier dans lequel il se trouve devant
 
-    printf("Sending %s to client...\n", currentMusic);
+    printf("Sending %s to client...\n\n", currentMusic);
 
     envoyer(client_socket, &bufferMusic, (pFct) serializeMusicMessage);
 
     recevoir(client_socket, buffer, NULL);
-    printf("OK\n");
     if (strcmp(buffer, "OK") != 0) {
         exit(EXIT_FAILURE);
     }
@@ -172,8 +187,6 @@ void sendCurrentMusic(socket_t *client_socket) {
     file_name = malloc(MAX_BUFF);
     strcpy(file_name, "playlist/");
     strcat(file_name, currentMusic);
-
-    printf("Sending %s...\n", currentMusic);
 
     FILE *file = fopen(file_name, "rb");
 
@@ -185,8 +198,6 @@ void sendCurrentMusic(socket_t *client_socket) {
     
     envoyer(client_socket, EXIT, NULL);
     fclose(file);
-
-    printf("Sent %s to client\n\n", currentMusic);
 }
 
 
@@ -249,22 +260,27 @@ void myRadio(){
     while ((read = getline(&line, &len, file)) != -1) {
         *elapsedTime=0;
         
-
         // on recupere le nom du fichier et la durée
         token = strtok(line, ";");
         file_name = token;
-        token = strtok(NULL, ";");        
+        token = strtok(NULL, ";");   
+
+        // si on doit retrouver la musique choisie par le client, on continue jusqu'a ce qu'on la trouve
+        if (strcmp(file_name, currentMusic) != 0) {
+            // on verifie que le client est en train de choisir une musique
+            if (*isPlaying == FALSE) 
+                continue;
+        }     
         
         // on formate la durée pour pouvoir l'utiliser dans sleep
         minutes = strtok(token, ":");
         seconds = strtok(NULL, ":");
         totalSeconds = atoi(minutes)*60 + atoi(seconds);
-        printf("Playing %s for %d seconds\n\n", file_name, totalSeconds);
 
-        sleep(2);
 
         *isChoosing = FALSE;
         *isPlaying = TRUE;
+        sleep(2);
         printf("Playing %s for %d seconds\n\n", file_name, totalSeconds);
         // on attend la durée de la musique et on incremente tempsEcoule de 1 tout les milliseconds sachant que totalSeconds est en secondes
         for (int i=0; i<totalSeconds*1000; i++) {

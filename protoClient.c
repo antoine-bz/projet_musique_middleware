@@ -1,5 +1,5 @@
 #include "protoClient.h"
-socket_t sockDial;
+socket_t sockDial;  
 
 //fct pour lancer une musique
 void lancerMusique(char *file_name, int tempsEcoule) {
@@ -58,6 +58,7 @@ void lancerMusique(char *file_name, int tempsEcoule) {
 
 void client(char *addrIPsrv, short port) {
     char reponse[MAX_BUFF];
+    char musicName[MAX_BUFF];
     MusicMessage buffer;
     int choix, tailleTableau;
 
@@ -105,6 +106,7 @@ void client(char *addrIPsrv, short port) {
     }
 
     if(buffer.type == MUSIC_RETURN){
+        
         recevoirMusique(&sockDial, buffer.current_music);
     }
     else{
@@ -115,12 +117,17 @@ void client(char *addrIPsrv, short port) {
    
     //while (1)
     //{
+
+        strcpy(musicName, "current_");
+        strcat(musicName, buffer.current_music);
         buffer.type = SEND_CURRENT_TIME_REQ ;
         envoyer(&sockDial, &buffer, (pFct) serializeMusicMessage);
         recevoir(&sockDial, &buffer, (pFct) deserializeMusicMessage);
 
 
-        lancerMusique(buffer.current_music, buffer.current_time);
+
+
+        lancerMusique(musicName, buffer.current_time);
 
         /*sleep(2);
         buffer.type = SEND_MUSIC_REQUEST ;
