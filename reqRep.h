@@ -9,6 +9,8 @@
 
 #define MAX_BUFF 1024
 #define EXIT "exit"
+#define TRUE 1
+#define FALSE 0
 
 typedef char buffer_t[MAX_BUFF];
 

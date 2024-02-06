@@ -10,9 +10,6 @@
 
 #include "reqRep.h"
 
-#define TRUE 1
-#define FALSE 0
-
 
 // on cree la memoire partagee
 extern int *elapsedTime;

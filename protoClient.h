@@ -6,6 +6,9 @@
 #include <signal.h>
 #include <sys/wait.h>
 #include <mpg123.h>
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
 #include <ao/ao.h>
 
 #define BITS 8
