@@ -155,11 +155,17 @@ void recevoirMusique(socket_t *client_socket, char * nomMusique){
 static void signalHandler(int sig) {
     switch (sig) {
         case SIGINT:
+            printf("Signal SIGINT reçu\n");
+            // si l'utilisateur appuie sur ctrl+c, on lui demande s'il veut quitter
+            printf("Voulez-vous quitter ? (y/n)\n");
+            char c = getchar();
+            if (c == 'y') {
+                fermerSocket(&sockDial);
+                CHECK(munmap(mute, shm_size) == 0, "munmap error");
+                CHECK(close(shm_id) == 0, "close error"); 
+                exit(EXIT_SUCCESS);
+            }
 
-            fermerSocket(&sockDial);
-            CHECK(munmap(mute, shm_size) == 0, "munmap error");
-            CHECK(close(shm_id) == 0, "close error"); 
-            exit(EXIT_SUCCESS);
             break;
 
         default:
