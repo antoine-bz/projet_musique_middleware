@@ -13,5 +13,5 @@
 
 void client (char *addrIPsrv, short port);
 void lancerMusique(char *file_name, int tempsEcoule) ;
-void recevoirMusique(socket_t *client_socket);
+void recevoirMusique(socket_t *client_socket,char * nomMusique);
 void client (char *addrIPsrv, short port);

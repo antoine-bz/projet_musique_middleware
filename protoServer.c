@@ -102,14 +102,14 @@ void handle_client(socket_t *client_socket) {
             printf("SEND_MUSIC_REQUEST received from client\n\n");
             // si currentMusic est vide, on envoie la playlist au client
             if (*isChoosing == FALSE && *isPlaying == FALSE) {
-                sendPlaylist(client_socket, request);
+                sendPlaylist(client_socket);
             } else {
                 // si le client est en train de choisir une musique, on attend qu'il ait fini
                 if (*isChoosing == TRUE) {
                     while (*isChoosing == TRUE);
                 }
                 // sinon on envoie la musique courante au client
-                sendCurrentMusic(client_socket, request);                
+                sendCurrentMusic(client_socket);                
             }
             break;
 
@@ -146,30 +146,36 @@ void handle_client(socket_t *client_socket) {
 }
 
 
-void sendCurrentMusic(socket_t *client_socket, buffer_t request) {
+void sendCurrentMusic(socket_t *client_socket) {
     buffer_t buffer;
     char *file_name;
     int bytesRead;
     int i=0;
-    MusicMessage musicMessage;
+    MusicMessage bufferMusic;
 
+    bufferMusic.type = MUSIC_RETURN;
+    strcpy(bufferMusic.current_music, currentMusic);
     // on recupere le nom du fichier a telecharger et on ajoute le dossier dans lequel il se trouve devant
+
+    printf("Sending %s to client...\n", currentMusic);
+
+    envoyer(client_socket, &bufferMusic, (pFct) serializeMusicMessage);
+
+    recevoir(client_socket, buffer, NULL);
+    printf("OK\n");
+    if (strcmp(buffer, "OK") != 0) {
+        exit(EXIT_FAILURE);
+    }
+
+    file_name = malloc(MAX_BUFF);
     strcpy(file_name, "playlist/");
     strcat(file_name, currentMusic);
-    FILE *file = fopen(file_name, "rb");
-
-    CHECK_FILE(file, "Error opening file");
-
-    musicMessage.type = MUSIC_RETURN;
-    strcpy(musicMessage.current_music, currentMusic);
-
-    envoyer(client_socket, &musicMessage, (pFct) serializeMusicMessage);
-
-    envoyer(client_socket, "OK", NULL);
-    envoyer(client_socket, currentMusic, NULL);
 
     printf("Sending %s...\n", currentMusic);
 
+    FILE *file = fopen(file_name, "rb");
+
+    CHECK_FILE(file, "Error opening file");
     // Envoyer le contenu du fichier mp3 au client
     while ((bytesRead = fread(buffer, 1, MAX_BUFF, file)) > 0) {
         envoyer(client_socket, buffer, NULL);
@@ -183,7 +189,7 @@ void sendCurrentMusic(socket_t *client_socket, buffer_t request) {
 
 
 
-void sendPlaylist(socket_t *client_socket, buffer_t request) {
+void sendPlaylist(socket_t *client_socket) {
     MusicMessage musicMessage;
 
     // on recupere le nom des musiques dans le fichier playlist.txt et on les met dans musicMessage.playlist

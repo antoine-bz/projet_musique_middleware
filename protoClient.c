@@ -95,6 +95,7 @@ void client(char *addrIPsrv, short port) {
             printf("Erreur de reception du choix\n");
             exit(EXIT_FAILURE);
         }
+        printf("OK\n");
 
 
         buffer.type = SEND_MUSIC_REQUEST ;
@@ -105,7 +106,7 @@ void client(char *addrIPsrv, short port) {
     }
 
     if(buffer.type == MUSIC_RETURN){
-        recevoirMusique(&sockDial);
+        recevoirMusique(&sockDial, buffer.current_music);
     }
     else{
         printf("Erreur de reception de la musique\n");
@@ -133,19 +134,16 @@ void client(char *addrIPsrv, short port) {
 
 
 
-void recevoirMusique(socket_t *client_socket){
+void recevoirMusique(socket_t *client_socket, char * nomMusique){
     char buffer[MAX_BUFF];
     char new_file_name [MAX_BUFF];
-    recevoir(client_socket, buffer, NULL);
-    if (strcmp(buffer, "OK") != 0) {
-        exit(EXIT_FAILURE);
-    }
+    
 
-    // recevoir le nom du fichier
-    recevoir(client_socket, buffer, NULL);
+    printf("Reception de la musique\n");
+    envoyer(client_socket, "OK", NULL);
 
     strcpy(new_file_name, "current_");
-    strcat(new_file_name, buffer);
+    strcat(new_file_name, nomMusique);
 
     // supprimer les anciens fichiers
     system("rm -f current_*.mp3");   
@@ -153,11 +151,11 @@ void recevoirMusique(socket_t *client_socket){
     // Recevoir et sauvegarder le fichier MP3
     remove(new_file_name);
     do {
+        // recevoir le contenu du fichier mp3
+        recevoir(client_socket, buffer, NULL);
         // ecrire dans le fichier octet par octet
         FILE *file = fopen(new_file_name, "ab");
         CHECK_FILE(file, "fopen");
-        // recevoir le contenu du fichier mp3
-        recevoir(client_socket, buffer, NULL);
         if (strcmp(buffer, EXIT) != 0) {
             // ecrire dans le fichier octet par octet
             fwrite(buffer, 1, MAX_BUFF, file);

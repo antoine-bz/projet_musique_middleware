@@ -28,5 +28,5 @@ void handle_client(socket_t *client_socket);
 void myRadio();
 static void signalHandler(int sig);
 
-void sendPlaylist(socket_t *client_socket, buffer_t request);
-void sendCurrentMusic(socket_t *client_socket, buffer_t request);
+void sendPlaylist(socket_t *client_socket);
+void sendCurrentMusic(socket_t *client_socket);
