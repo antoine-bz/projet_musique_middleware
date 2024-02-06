@@ -139,13 +139,18 @@ static void signalHandler(int sig) {
         case SIGINT:
             printf("Signal SIGINT reçu\n");
             // si l'utilisateur appuie sur ctrl+c, on lui demande s'il veut quitter
-            printf("Voulez-vous quitter ? (y/n)\n");
+            printf("Voulez-vous quitter ? (y/n) ou m pour mute\n");
             char c = getchar();
             if (c == 'y') {
                 fermerSocket(&sockDial);
                 CHECK(munmap(mute, shm_size) == 0, "munmap error");
                 CHECK(close(shm_id) == 0, "close error"); 
                 exit(EXIT_SUCCESS);
+            }else if(c=='m'){
+                if ((*mute)== FALSE)
+                    *mute=TRUE;
+                else
+                    *mute=FALSE;
             }
 
             break;
@@ -162,7 +167,6 @@ void lancerMusique(char *file_name, int tempsEcoule) {
     size_t buffer_size;
     size_t done;
     int err;
-    pid_t pid;
 
     // Initialiser mpg123
     mpg123_init();
@@ -196,26 +200,13 @@ void lancerMusique(char *file_name, int tempsEcoule) {
     long startingFrame = (long)((tempsEcoule / 1000.0) * rate);
     mpg123_seek_frame(mh, startingFrame, SEEK_SET);
 
-    printf("Lecture du fichier MP3\n");
-    pid = fork();
-    CHECK(pid, "fork error");
-    if (pid == 0) {
-        while (1) {
-            char c = getchar();
-            if (c == 'm') {
-                *mute = TRUE;
-            } else if (c == 'u') {
-                *mute = FALSE;
-            }
-        }
-    }
     *mute = 0; // Variable pour le statut de sourdine
 
     while (mpg123_read(mh, buffer, buffer_size, &done) == MPG123_OK) {
         
-        //if (!(*mute)) { // Si la sourdine n'est pas activée, jouer le son
+        if (!(*mute)) { // Si la sourdine n'est pas activée, jouer le son
             ao_play(device, buffer, done);
-        //}
+        }
     }
 
     // Nettoyer et fermer
