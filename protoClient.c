@@ -130,25 +130,21 @@ static void signalHandler(int sig) {
     switch (sig) {
         case SIGINT:
             printf("Signal SIGINT reçu\n");
-            
-            // Vider le tampon d'entrée stdin
-            int c;
-            while ((c = getchar()) != '\n' && c != EOF);
-
-            // Demander à l'utilisateur s'il veut quitter
+            // si l'utilisateur appuie sur ctrl+c, on lui demande s'il veut quitter
             printf("Voulez-vous quitter ? (y/n) ou m pour mute\n");
-            char choice = getchar();
-            if (choice == 'y') {
+            char c = getchar();
+            if (c == 'y') {
                 fermerSocket(&sockDial);
                 CHECK(munmap(mute, shm_size) == 0, "munmap error");
                 CHECK(close(shm_id) == 0, "close error"); 
                 exit(EXIT_SUCCESS);
-            } else if (choice == 'm') {
-                if ((*mute) == FALSE)
-                    *mute = TRUE;
+            }else if(c=='m'){
+                if ((*mute)== FALSE)
+                    *mute=TRUE;
                 else
-                    *mute = FALSE;
+                    *mute=FALSE;
             }
+
             break;
 
         default:
@@ -196,25 +192,12 @@ void lancerMusique(char *file_name, int tempsEcoule) {
     long startingFrame = (long)((tempsEcoule / 1000.0) * rate);
     mpg123_seek_frame(mh, startingFrame, SEEK_SET);
 
-    // Boucle de lecture audio
-    while (1) {
-        // Vérifier l'état de la sourdine
-        int mute_state = *mute;
+    *mute = 0; // Variable pour le statut de sourdine
 
-        // Si la sourdine est activée, attendre
-        while (mute_state && mpg123_read(mh, buffer, buffer_size, &done) == MPG123_OK) {
-            // Attendre et vérifier à nouveau l'état de la sourdine
-            usleep(100000); // Attendre 100ms
-            mute_state = *mute; // Mettre à jour l'état de la sourdine
-        }
-
-        // Si la sourdine n'est pas activée et la lecture audio est réussie
-        if (!mute_state && mpg123_read(mh, buffer, buffer_size, &done) == MPG123_OK) {
-            // Lire et jouer les données audio
+    while (mpg123_read(mh, buffer, buffer_size, &done) == MPG123_OK) {
+        
+        if (!(*mute)) { // Si la sourdine n'est pas activée, jouer le son
             ao_play(device, buffer, done);
-        } else {
-            // Quitter la boucle si la sourdine est activée ou si la lecture audio est terminée
-            break;
         }
     }
 
