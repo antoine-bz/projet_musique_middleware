@@ -292,6 +292,7 @@ void myRadio(){
         // On efface currentMusic
         strcpy(currentMusic, "");
     }
+    
 
     CHECK(munmap(shm_ptr, shm_size) == 0, "munmap error");
     CHECK(close(shm_id) == 0, "close error");
