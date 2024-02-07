@@ -1,6 +1,3 @@
 sara_perche_ti_amo.mp3;3:09
 Ai_Se_Eu_Te_Pego.mp3;2:45
-Gusttavo_Lima_Balada.mp3;3:23
-Radiohead_Creep.mp3;3:59
-Crack_A_Bottle.mp3;5:03
-21_Savage_redrum.mp3;4:26
+music2.mp3;0:58
