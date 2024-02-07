@@ -68,19 +68,19 @@ void client(char *addrIPsrv, short port) {
         recevoir(&sockDial, &buffer, (pFct) deserializeMusicMessage);
     }
 
-    if(buffer.type == MUSIC_RETURN){
-        
-        recevoirMusique(&sockDial, buffer.current_music);
-    }
-    else{
-        printf("Erreur de reception de la musique\n");
-        exit(EXIT_FAILURE);
-    }
-
-   
     while (1)
     {
 
+        if(buffer.type == MUSIC_RETURN){
+            
+            recevoirMusique(&sockDial, buffer.current_music);
+        }
+        else{
+            printf("Erreur de reception de la musique\n");
+            exit(EXIT_FAILURE);
+        }
+
+   
         strcpy(musicName, "current_");
         strcat(musicName, buffer.current_music);
         buffer.type = SEND_CURRENT_TIME_REQ ;

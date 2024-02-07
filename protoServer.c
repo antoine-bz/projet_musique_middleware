@@ -58,7 +58,7 @@ void server (char *addrIPsrv, short server_port){
     }
 
     // on affiche les variables partagees dans un processus fils toutes les 10 secondes
-    pid = fork();
+    /*pid = fork();
     if (pid == -1) {
         perror("Erreur lors de la création du processus fils");
         exit(EXIT_FAILURE);
@@ -71,7 +71,7 @@ void server (char *addrIPsrv, short server_port){
             printf("isChoosing: %d\n", *isChoosing);
             sleep(10);
         }
-    }
+    }*/
 
     while (1) {
         // Attendre une connexion entrante
@@ -258,7 +258,6 @@ void myRadio(){
 
     // on lit le fichier ligne par ligne a partir de la musique courante et on commence a jouer la musique a partir de la musique courante
     while ((read = getline(&line, &len, file)) != -1) {
-        *elapsedTime=0;
         
         // on recupere le nom du fichier et la durée
         token = strtok(line, ";");
@@ -271,12 +270,13 @@ void myRadio(){
             if (*isPlaying == FALSE) 
                 continue;
         }     
-        
+        strcpy(currentMusic,file_name);
+        *elapsedTime=0;
+
         // on formate la durée pour pouvoir l'utiliser dans sleep
         minutes = strtok(token, ":");
         seconds = strtok(NULL, ":");
         totalSeconds = atoi(minutes)*60 + atoi(seconds);
-
 
         *isChoosing = FALSE;
         *isPlaying = TRUE;
@@ -287,6 +287,7 @@ void myRadio(){
             usleep(1000);
             *elapsedTime += 1;
         }
+        sleep(10);
     }
 
     CHECK(munmap(shm_ptr, shm_size) == 0, "munmap error");

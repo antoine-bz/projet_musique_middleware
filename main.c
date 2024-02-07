@@ -38,10 +38,6 @@ int main(int argc, char *argv[]) {
         if(argc == 3) {
             server(argv[1], atoi(argv[2]));
         }
-        else if (argc == 2)
-        {
-            server(INADDR_SVC, PORT_SVC+atoi(argv[1]));
-        }
         else if (argc == 1)
         {
             server(INADDR_SVC, PORT_SVC);
