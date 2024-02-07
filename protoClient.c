@@ -33,53 +33,51 @@ void client(char *addrIPsrv, short port) {
     sockDial.type = SOCK_CLIENT;
     ouvrirSocket(&sockDial, SOCK_STREAM, addrIPsrv, port);
 
-    buffer.type = SEND_MUSIC_REQUEST ;
-
-    envoyer(&sockDial, &buffer, (pFct) serializeMusicMessage);
-    recevoir(&sockDial, &buffer, (pFct) deserializeMusicMessage);
-    // Gestion de la musique courante
-    if (buffer.type == PLAYLIST_RETURN) {
-        printf("\nPlaylist:\n");
-        tailleTableau = sizeof(buffer.playlist) / sizeof(buffer.playlist[0]);
-        //strlen(buffer.playlist) a voir si ca marche
-        for (int i = 0; i < tailleTableau; i++)
-        {
-            if (strlen(buffer.playlist[i]) > 3)
-                printf("%d - %s\n", i, buffer.playlist[i]);
-        }
-        printf("\nChoisir une musique:\n");
-        scanf("%d", &choix);
-        strcpy( buffer.current_music,buffer.playlist[choix]);
-        buffer.type = SEND_MUSIC_CHOICE;
-        buffer.current_time = 0;
-        
-        envoyer(&sockDial, &buffer, (pFct) serializeMusicMessage);
-        recevoir(&sockDial, &reponse, NULL);
-
-        if (strcmp(reponse, "OK") != 0) {
-            printf("Erreur de reception du choix\n");
-            exit(EXIT_FAILURE);
-        }
-        
-        buffer.type = SEND_MUSIC_REQUEST ;
-        buffer.current_time = 0;
-        buffer.current_music[0] = '\0';
-        envoyer(&sockDial, &buffer, (pFct) serializeMusicMessage);
-        recevoir(&sockDial, &buffer, (pFct) deserializeMusicMessage);
-    }
-
-    if(buffer.type == MUSIC_RETURN){
-        
-        recevoirMusique(&sockDial, buffer.current_music);
-    }
-    else{
-        printf("Erreur de reception de la musique\n");
-        exit(EXIT_FAILURE);
-    }
-
-   
     while (1)
     {
+        // Demande de la playlist
+        buffer.type = SEND_MUSIC_REQUEST ;
+
+        envoyer(&sockDial, &buffer, (pFct) serializeMusicMessage);
+        recevoir(&sockDial, &buffer, (pFct) deserializeMusicMessage);
+        // Gestion de la musique courante
+        if (buffer.type == PLAYLIST_RETURN) {
+            printf("\nPlaylist:\n");
+            tailleTableau = sizeof(buffer.playlist) / sizeof(buffer.playlist[0]);
+            //strlen(buffer.playlist) a voir si ca marche
+            for (int i = 0; i < tailleTableau; i++)
+            {
+                if (strlen(buffer.playlist[i]) > 3)
+                    printf("%d - %s\n", i, buffer.playlist[i]);
+            }
+            printf("\nChoisir une musique:\n");
+            scanf("%d", &choix);
+            strcpy( buffer.current_music,buffer.playlist[choix]);
+            buffer.type = SEND_MUSIC_CHOICE;
+            buffer.current_time = 0;
+            
+            envoyer(&sockDial, &buffer, (pFct) serializeMusicMessage);
+            recevoir(&sockDial, &reponse, NULL);
+
+            if (strcmp(reponse, "OK") != 0) {
+                printf("Erreur de reception du choix\n");
+                exit(EXIT_FAILURE);
+            }
+            
+            buffer.type = SEND_MUSIC_REQUEST ;
+            buffer.current_time = 0;
+            buffer.current_music[0] = '\0';
+            envoyer(&sockDial, &buffer, (pFct) serializeMusicMessage);
+            recevoir(&sockDial, &buffer, (pFct) deserializeMusicMessage);
+        }
+
+        if(buffer.type == MUSIC_RETURN){
+            recevoirMusique(&sockDial, buffer.current_music);
+        }
+        else{
+            printf("Erreur de reception de la musique\n");
+            exit(EXIT_FAILURE);
+        }  
 
         strcpy(musicName, "current_");
         strcat(musicName, buffer.current_music);
@@ -87,15 +85,9 @@ void client(char *addrIPsrv, short port) {
         envoyer(&sockDial, &buffer, (pFct) serializeMusicMessage);
         recevoir(&sockDial, &buffer, (pFct) deserializeMusicMessage);
 
-
-
-
         lancerMusique(musicName, buffer.current_time);
-
-        sleep(6);
-        buffer.type = SEND_MUSIC_REQUEST ;
-        envoyer(&sockDial, &buffer, (pFct) serializeMusicMessage);
-        recevoir(&sockDial, &buffer, (pFct) deserializeMusicMessage);
+        
+        sleep(10);
     }
     // Fermeture de la connexion
     fermerSocket(&sockDial);
