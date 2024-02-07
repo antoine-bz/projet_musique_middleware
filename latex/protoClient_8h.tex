@@ -1,0 +1,110 @@
+\hypertarget{protoClient_8h}{}\doxysection{proto\+Client.\+h File Reference}
+\label{protoClient_8h}\index{protoClient.h@{protoClient.h}}
+
+
+Fichier d\textquotesingle{}entête de proto\+Client.\+c.  
+
+
+{\ttfamily \#include \char`\"{}req\+Rep.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$mpg123.\+h$>$}\newline
+{\ttfamily \#include $<$ao/ao.\+h$>$}\newline
+Include dependency graph for proto\+Client.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protoClient_8h__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{protoClient_8h_a9d2a7c69bd3fabc41e1ee87df2f283b3}\label{protoClient_8h_a9d2a7c69bd3fabc41e1ee87df2f283b3}} 
+\#define \mbox{\hyperlink{protoClient_8h_a9d2a7c69bd3fabc41e1ee87df2f283b3}{BITS}}~8
+\begin{DoxyCompactList}\small\item\em Définition du nombre de bits pour le son. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{protoClient_8h_a9c09193a4f908a469b2a6c7076d353e0}{client}} (char $\ast$addr\+IPsrv, short port)
+\begin{DoxyCompactList}\small\item\em Fonction qui crée un client pour envoyer des demandes au serveur. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{protoClient_8h_a3d65aedca8c16912cb5f387f7902d580}{lancer\+Musique}} (char $\ast$file\+\_\+name, int temps\+Ecoule)
+\begin{DoxyCompactList}\small\item\em Fonction qui lance une musique. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{protoClient_8h_a52d5873eb3912e7397b01812df9799db}{recevoir\+Musique}} (\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} $\ast$client\+\_\+socket, char $\ast$nom\+Musique)
+\begin{DoxyCompactList}\small\item\em Fonction qui reçoit une musique. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{protoClient_8h_a709963e85a428d120523f6d04160cf83}\label{protoClient_8h_a709963e85a428d120523f6d04160cf83}} 
+\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} \mbox{\hyperlink{protoClient_8h_a709963e85a428d120523f6d04160cf83}{sock\+Dial}}
+\begin{DoxyCompactList}\small\item\em Socket pour la communication avec le serveur. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Fichier d\textquotesingle{}entête de proto\+Client.\+c. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{protoClient_8h_a9c09193a4f908a469b2a6c7076d353e0}\label{protoClient_8h_a9c09193a4f908a469b2a6c7076d353e0}} 
+\index{protoClient.h@{protoClient.h}!client@{client}}
+\index{client@{client}!protoClient.h@{protoClient.h}}
+\doxysubsubsection{\texorpdfstring{client()}{client()}}
+{\footnotesize\ttfamily void client (\begin{DoxyParamCaption}\item[{char $\ast$}]{addr\+IPsrv,  }\item[{short}]{port }\end{DoxyParamCaption})}
+
+
+
+Fonction qui crée un client pour envoyer des demandes au serveur. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em addr\+IPsrv} & Adresse IP du serveur \\
+\hline
+{\em port} & Port du serveur \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void
+\end{DoxyReturn}
+Cette fonction crée un client pour envoyer des demandes au serveur \mbox{\Hypertarget{protoClient_8h_a3d65aedca8c16912cb5f387f7902d580}\label{protoClient_8h_a3d65aedca8c16912cb5f387f7902d580}} 
+\index{protoClient.h@{protoClient.h}!lancerMusique@{lancerMusique}}
+\index{lancerMusique@{lancerMusique}!protoClient.h@{protoClient.h}}
+\doxysubsubsection{\texorpdfstring{lancerMusique()}{lancerMusique()}}
+{\footnotesize\ttfamily void lancer\+Musique (\begin{DoxyParamCaption}\item[{char $\ast$}]{file\+\_\+name,  }\item[{int}]{temps\+Ecoule }\end{DoxyParamCaption})}
+
+
+
+Fonction qui lance une musique. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+\_\+name} & Nom de la musique \\
+\hline
+{\em temps\+Ecoule} & Temps écoulé \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void
+\end{DoxyReturn}
+Cette fonction lance une musique \mbox{\Hypertarget{protoClient_8h_a52d5873eb3912e7397b01812df9799db}\label{protoClient_8h_a52d5873eb3912e7397b01812df9799db}} 
+\index{protoClient.h@{protoClient.h}!recevoirMusique@{recevoirMusique}}
+\index{recevoirMusique@{recevoirMusique}!protoClient.h@{protoClient.h}}
+\doxysubsubsection{\texorpdfstring{recevoirMusique()}{recevoirMusique()}}
+{\footnotesize\ttfamily void recevoir\+Musique (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} $\ast$}]{client\+\_\+socket,  }\item[{char $\ast$}]{nom\+Musique }\end{DoxyParamCaption})}
+
+
+
+Fonction qui reçoit une musique. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em client\+\_\+socket} & Socket du client \\
+\hline
+{\em nom\+Musique} & Nom de la musique \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void
+\end{DoxyReturn}
+Cette fonction reçoit une musique 

@@ -1,0 +1,258 @@
+\hypertarget{data_8h}{}\doxysection{data.\+h File Reference}
+\label{data_8h}\index{data.h@{data.h}}
+
+
+fichier d\textquotesingle{}entête de data.\+c  
+
+
+{\ttfamily \#include \char`\"{}session.\+h\char`\"{}}\newline
+Include dependency graph for data.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{data_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=260pt]{data_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structsocket__t}{socket\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em structure de socket \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{data_8h_a4b70916bdf28ed7afd94e4fb98230a90}\label{data_8h_a4b70916bdf28ed7afd94e4fb98230a90}} 
+\#define {\bfseries MAX\+\_\+\+BUFF}~1024
+\item 
+\mbox{\Hypertarget{data_8h_af5e98f49937d777f11d073b6486460b4}\label{data_8h_af5e98f49937d777f11d073b6486460b4}} 
+\#define {\bfseries SOCK\+\_\+\+CLIENT}~0
+\item 
+\mbox{\Hypertarget{data_8h_a9af593ae0dd92a0a0ac60b547e2fffe3}\label{data_8h_a9af593ae0dd92a0a0ac60b547e2fffe3}} 
+\#define {\bfseries SOCK\+\_\+\+SERVEUR}~1
+\item 
+\#define \mbox{\hyperlink{data_8h_ad3fe337408f16c132c895f2b59326410}{CHECK}}(sts,  msg)~if ((sts) == -\/1) \{perror(msg);exit(-\/1);\}
+\begin{DoxyCompactList}\small\item\em macro de vérification de l\textquotesingle{}état d\textquotesingle{}une fonction \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{data_8h_a4080c060d2fe2fe06b784af68271e3b8}{CHECK\+\_\+\+FILE}}(sts,  msg)~if ((sts) == NULL) \{perror(msg);exit(-\/1);\}
+\begin{DoxyCompactList}\small\item\em macro de vérification de l\textquotesingle{}état d\textquotesingle{}un fichier \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{data_8h_a93607ec65d8619a63a76097b4443534b}{CHECK\+\_\+\+SHM}}(sts,  msg)~if ((sts) == (void $\ast$) -\/1) \{perror(msg);exit(-\/1);\}
+\begin{DoxyCompactList}\small\item\em macro de vérification de l\textquotesingle{}état d\textquotesingle{}une mémoire partagée \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{data_8h_a873666dd19158207cffa2ec48b730250}{CHECK\+\_\+\+MAP}}(sts,  msg)~if ((sts) == MAP\+\_\+\+FAILED) \{perror(msg);exit(-\/1);\}
+\begin{DoxyCompactList}\small\item\em macro de vérification de l\textquotesingle{}état d\textquotesingle{}un mapping \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{data_8h_ae3ca16da34c140567a2ce7adef3f1610}\label{data_8h_ae3ca16da34c140567a2ce7adef3f1610}} 
+typedef char \mbox{\hyperlink{data_8h_ae3ca16da34c140567a2ce7adef3f1610}{buffer\+\_\+t}}\mbox{[}\mbox{\hyperlink{reqRep_8h_a4b70916bdf28ed7afd94e4fb98230a90}{MAX\+\_\+\+BUFF}}\mbox{]}
+\begin{DoxyCompactList}\small\item\em buffer de taille MAX\+\_\+\+BUFF \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{data_8h_a87b291a0e81b4fdb9738eb3b480ced42}\label{data_8h_a87b291a0e81b4fdb9738eb3b480ced42}} 
+typedef void $\ast$ \mbox{\hyperlink{data_8h_a87b291a0e81b4fdb9738eb3b480ced42}{generic}}
+\begin{DoxyCompactList}\small\item\em pointeur générique \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{data_8h_a237f03630228522f5ba7883ddcd1b7a7}\label{data_8h_a237f03630228522f5ba7883ddcd1b7a7}} 
+typedef void($\ast$ \mbox{\hyperlink{data_8h_a237f03630228522f5ba7883ddcd1b7a7}{p\+Fct}}) (\mbox{\hyperlink{data_8h_a87b291a0e81b4fdb9738eb3b480ced42}{generic}}, \mbox{\hyperlink{data_8h_a87b291a0e81b4fdb9738eb3b480ced42}{generic}})
+\begin{DoxyCompactList}\small\item\em fonction de pointeur sur fonction \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{data_8h_ae47f003a9fd95e9f8f845ae2d7c9270f}\label{data_8h_ae47f003a9fd95e9f8f845ae2d7c9270f}} 
+typedef struct \mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} {\bfseries socket\+\_\+t}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{data_8h_a81f53787809248692e1a2babf1ae48f1}{envoyer}} (\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} $\ast$sock, \mbox{\hyperlink{data_8h_a87b291a0e81b4fdb9738eb3b480ced42}{generic}} quoi, \mbox{\hyperlink{data_8h_a237f03630228522f5ba7883ddcd1b7a7}{p\+Fct}} serial)
+\begin{DoxyCompactList}\small\item\em fonction d\textquotesingle{}envoi d\textquotesingle{}un message sur une socket \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{data_8h_aa6a88dfc156efd8b41a74dc4a6ce3ed6}{recevoir}} (\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} $\ast$sock, \mbox{\hyperlink{data_8h_a87b291a0e81b4fdb9738eb3b480ced42}{generic}} quoi, \mbox{\hyperlink{data_8h_a237f03630228522f5ba7883ddcd1b7a7}{p\+Fct}} de\+Serial)
+\begin{DoxyCompactList}\small\item\em fonction de réception d\textquotesingle{}un message sur une socket \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{data_8h_a51b2f4b2461a8cb8d265b8da6bd96d9d}{fermer\+Socket}} (\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} $\ast$sock)
+\begin{DoxyCompactList}\small\item\em fonction de fermeture d\textquotesingle{}une socket \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{data_8h_a6355130143eea85541f0a42470e467db}{ouvrir\+Socket}} (\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} $\ast$sock, short mode, char $\ast$addr\+IP, short port)
+\begin{DoxyCompactList}\small\item\em fonction d\textquotesingle{}ouverture d\textquotesingle{}une socket \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} \mbox{\hyperlink{data_8h_adc84f733b1ebf3a3e582833381f2a144}{accepter\+Connection}} (\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} $\ast$sock)
+\begin{DoxyCompactList}\small\item\em fonction d\textquotesingle{}acceptation d\textquotesingle{}une connexion sur une socket \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+fichier d\textquotesingle{}entête de data.\+c 
+
+\begin{DoxyAuthor}{Author}
+Boez Antoine 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{data_8h_ad3fe337408f16c132c895f2b59326410}\label{data_8h_ad3fe337408f16c132c895f2b59326410}} 
+\index{data.h@{data.h}!CHECK@{CHECK}}
+\index{CHECK@{CHECK}!data.h@{data.h}}
+\doxysubsubsection{\texorpdfstring{CHECK}{CHECK}}
+{\footnotesize\ttfamily \#define CHECK(\begin{DoxyParamCaption}\item[{}]{sts,  }\item[{}]{msg }\end{DoxyParamCaption})~if ((sts) == -\/1) \{perror(msg);exit(-\/1);\}}
+
+
+
+macro de vérification de l\textquotesingle{}état d\textquotesingle{}une fonction 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sts} & \+: fournit le résultat de la fonction \\
+\hline
+{\em msg} & \+: fournit le message d\textquotesingle{}erreur à afficher \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{data_8h_a4080c060d2fe2fe06b784af68271e3b8}\label{data_8h_a4080c060d2fe2fe06b784af68271e3b8}} 
+\index{data.h@{data.h}!CHECK\_FILE@{CHECK\_FILE}}
+\index{CHECK\_FILE@{CHECK\_FILE}!data.h@{data.h}}
+\doxysubsubsection{\texorpdfstring{CHECK\_FILE}{CHECK\_FILE}}
+{\footnotesize\ttfamily \#define CHECK\+\_\+\+FILE(\begin{DoxyParamCaption}\item[{}]{sts,  }\item[{}]{msg }\end{DoxyParamCaption})~if ((sts) == NULL) \{perror(msg);exit(-\/1);\}}
+
+
+
+macro de vérification de l\textquotesingle{}état d\textquotesingle{}un fichier 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sts} & \+: fournit le résultat de la fonction \\
+\hline
+{\em msg} & \+: fournit le message d\textquotesingle{}erreur à afficher \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{data_8h_a873666dd19158207cffa2ec48b730250}\label{data_8h_a873666dd19158207cffa2ec48b730250}} 
+\index{data.h@{data.h}!CHECK\_MAP@{CHECK\_MAP}}
+\index{CHECK\_MAP@{CHECK\_MAP}!data.h@{data.h}}
+\doxysubsubsection{\texorpdfstring{CHECK\_MAP}{CHECK\_MAP}}
+{\footnotesize\ttfamily \#define CHECK\+\_\+\+MAP(\begin{DoxyParamCaption}\item[{}]{sts,  }\item[{}]{msg }\end{DoxyParamCaption})~if ((sts) == MAP\+\_\+\+FAILED) \{perror(msg);exit(-\/1);\}}
+
+
+
+macro de vérification de l\textquotesingle{}état d\textquotesingle{}un mapping 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sts} & \+: fournit le résultat de la fonction \\
+\hline
+{\em msg} & \+: fournit le message d\textquotesingle{}erreur à afficher \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{data_8h_a93607ec65d8619a63a76097b4443534b}\label{data_8h_a93607ec65d8619a63a76097b4443534b}} 
+\index{data.h@{data.h}!CHECK\_SHM@{CHECK\_SHM}}
+\index{CHECK\_SHM@{CHECK\_SHM}!data.h@{data.h}}
+\doxysubsubsection{\texorpdfstring{CHECK\_SHM}{CHECK\_SHM}}
+{\footnotesize\ttfamily \#define CHECK\+\_\+\+SHM(\begin{DoxyParamCaption}\item[{}]{sts,  }\item[{}]{msg }\end{DoxyParamCaption})~if ((sts) == (void $\ast$) -\/1) \{perror(msg);exit(-\/1);\}}
+
+
+
+macro de vérification de l\textquotesingle{}état d\textquotesingle{}une mémoire partagée 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sts} & \+: fournit le résultat de la fonction \\
+\hline
+{\em msg} & \+: fournit le message d\textquotesingle{}erreur à afficher \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{data_8h_adc84f733b1ebf3a3e582833381f2a144}\label{data_8h_adc84f733b1ebf3a3e582833381f2a144}} 
+\index{data.h@{data.h}!accepterConnection@{accepterConnection}}
+\index{accepterConnection@{accepterConnection}!data.h@{data.h}}
+\doxysubsubsection{\texorpdfstring{accepterConnection()}{accepterConnection()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} accepter\+Connection (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} $\ast$}]{sock }\end{DoxyParamCaption})}
+
+
+
+fonction d\textquotesingle{}acceptation d\textquotesingle{}une connexion sur une socket 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sock} & \+: fournit la socket sur laquelle accepter la connexion \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} \+: fournit la socket de la connexion acceptée 
+\end{DoxyReturn}
+\mbox{\Hypertarget{data_8h_a81f53787809248692e1a2babf1ae48f1}\label{data_8h_a81f53787809248692e1a2babf1ae48f1}} 
+\index{data.h@{data.h}!envoyer@{envoyer}}
+\index{envoyer@{envoyer}!data.h@{data.h}}
+\doxysubsubsection{\texorpdfstring{envoyer()}{envoyer()}}
+{\footnotesize\ttfamily void envoyer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} $\ast$}]{sock,  }\item[{\mbox{\hyperlink{data_8h_a87b291a0e81b4fdb9738eb3b480ced42}{generic}}}]{quoi,  }\item[{\mbox{\hyperlink{data_8h_a237f03630228522f5ba7883ddcd1b7a7}{p\+Fct}}}]{serial }\end{DoxyParamCaption})}
+
+
+
+fonction d\textquotesingle{}envoi d\textquotesingle{}un message sur une socket 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sock} & \+: fournit la socket sur laquelle envoyer le message \\
+\hline
+{\em quoi} & \+: fournit le message à envoyer \\
+\hline
+{\em serial} & \+: fournit la fonction de sérialisation du message \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{data_8h_a51b2f4b2461a8cb8d265b8da6bd96d9d}\label{data_8h_a51b2f4b2461a8cb8d265b8da6bd96d9d}} 
+\index{data.h@{data.h}!fermerSocket@{fermerSocket}}
+\index{fermerSocket@{fermerSocket}!data.h@{data.h}}
+\doxysubsubsection{\texorpdfstring{fermerSocket()}{fermerSocket()}}
+{\footnotesize\ttfamily void fermer\+Socket (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} $\ast$}]{sock }\end{DoxyParamCaption})}
+
+
+
+fonction de fermeture d\textquotesingle{}une socket 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sock} & \+: fournit la socket à fermer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{data_8h_a6355130143eea85541f0a42470e467db}\label{data_8h_a6355130143eea85541f0a42470e467db}} 
+\index{data.h@{data.h}!ouvrirSocket@{ouvrirSocket}}
+\index{ouvrirSocket@{ouvrirSocket}!data.h@{data.h}}
+\doxysubsubsection{\texorpdfstring{ouvrirSocket()}{ouvrirSocket()}}
+{\footnotesize\ttfamily void ouvrir\+Socket (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} $\ast$}]{sock,  }\item[{short}]{mode,  }\item[{char $\ast$}]{addr\+IP,  }\item[{short}]{port }\end{DoxyParamCaption})}
+
+
+
+fonction d\textquotesingle{}ouverture d\textquotesingle{}une socket 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sock} & \+: fournit la socket à ouvrir \\
+\hline
+{\em mode} & \+: fournit le mode de la socket (SOCK\+\_\+\+DGRAM/ SOCK\+\_\+\+STREAM) \\
+\hline
+{\em addr\+IP} & \+: fournit l\textquotesingle{}adresse IP de la socket \\
+\hline
+{\em port} & \+: fournit le port de la socket \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{data_8h_aa6a88dfc156efd8b41a74dc4a6ce3ed6}\label{data_8h_aa6a88dfc156efd8b41a74dc4a6ce3ed6}} 
+\index{data.h@{data.h}!recevoir@{recevoir}}
+\index{recevoir@{recevoir}!data.h@{data.h}}
+\doxysubsubsection{\texorpdfstring{recevoir()}{recevoir()}}
+{\footnotesize\ttfamily int recevoir (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} $\ast$}]{sock,  }\item[{\mbox{\hyperlink{data_8h_a87b291a0e81b4fdb9738eb3b480ced42}{generic}}}]{quoi,  }\item[{\mbox{\hyperlink{data_8h_a237f03630228522f5ba7883ddcd1b7a7}{p\+Fct}}}]{de\+Serial }\end{DoxyParamCaption})}
+
+
+
+fonction de réception d\textquotesingle{}un message sur une socket 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sock} & \+: fournit la socket sur laquelle recevoir le message \\
+\hline
+{\em quoi} & \+: fournit le message à recevoir \\
+\hline
+{\em de\+Serial} & \+: fournit la fonction de désérialisation du message \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int \+: fournit la taille du message reçu 
+\end{DoxyReturn}

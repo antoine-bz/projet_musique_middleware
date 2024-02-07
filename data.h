@@ -37,6 +37,12 @@
 */
 #define CHECK_SHM(sts,msg) if ((sts) == (void *) -1) {perror(msg);exit(-1);}
 
+/**
+ * \def     CHECK_MAP(sts,msg)
+ * \brief   macro de vérification de l'état d'un mapping
+ * \param   sts : fournit le résultat de la fonction
+ * \param   msg : fournit le message d'erreur à afficher
+*/
 #define CHECK_MAP(sts,msg) if ((sts) == MAP_FAILED) {perror(msg);exit(-1);}
 
 /**

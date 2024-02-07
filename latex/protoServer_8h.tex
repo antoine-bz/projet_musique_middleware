@@ -1,0 +1,163 @@
+\hypertarget{protoServer_8h}{}\doxysection{proto\+Server.\+h File Reference}
+\label{protoServer_8h}\index{protoServer.h@{protoServer.h}}
+
+
+Fichier d\textquotesingle{}entête de proto\+Server.\+c.  
+
+
+{\ttfamily \#include \char`\"{}req\+Rep.\+h\char`\"{}}\newline
+Include dependency graph for proto\+Server.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protoServer_8h__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{protoServer_8h_a47804b6bb285a7dcd8fed4f76ea6d90f}{server}} (char $\ast$addr\+IPsrv, short server\+\_\+port)
+\begin{DoxyCompactList}\small\item\em Fonction qui crée un serveur pour écouter les demandes des clients. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{protoServer_8h_a68c98a070cc57c3b14833c9e497d172b}{handle\+\_\+client}} (\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} $\ast$client\+\_\+socket)
+\begin{DoxyCompactList}\small\item\em Fonction qui gère les demandes des clients. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{protoServer_8h_a81248a37ab3618d6ec3c0c3b23373555}{my\+Radio}} ()
+\begin{DoxyCompactList}\small\item\em Fonction qui crée un processus fils pour jouer la musique. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{protoServer_8h_ac479665acbe42080b0fb7acb01952c92}{send\+Playlist}} (\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} $\ast$client\+\_\+socket)
+\begin{DoxyCompactList}\small\item\em Fonction qui envoie la playlist au client. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{protoServer_8h_a7f0b6e7252811bd605347408c4db8023}{send\+Current\+Music}} (\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} $\ast$client\+\_\+socket)
+\begin{DoxyCompactList}\small\item\em Fonction qui envoie la musique en cours de lecture au client. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{protoServer_8h_a5c5a92a8a5206022a7a37d270b843f2b}\label{protoServer_8h_a5c5a92a8a5206022a7a37d270b843f2b}} 
+int $\ast$ \mbox{\hyperlink{protoServer_8h_a5c5a92a8a5206022a7a37d270b843f2b}{elapsed\+Time}}
+\begin{DoxyCompactList}\small\item\em Pointeur sur la variable elapsed\+Time pour savoir combien de temps la musique est en train d\textquotesingle{}être jouée. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{protoServer_8h_a94ccb7fb58f00e3211285f60617e6c25}\label{protoServer_8h_a94ccb7fb58f00e3211285f60617e6c25}} 
+char $\ast$ \mbox{\hyperlink{protoServer_8h_a94ccb7fb58f00e3211285f60617e6c25}{current\+Music}}
+\begin{DoxyCompactList}\small\item\em Pointeur sur la variable current\+Music pour savoir quelle musique est en train d\textquotesingle{}être jouée. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{protoServer_8h_ab3e84972bf6913eec3eeee6f80654e75}\label{protoServer_8h_ab3e84972bf6913eec3eeee6f80654e75}} 
+int $\ast$ \mbox{\hyperlink{protoServer_8h_ab3e84972bf6913eec3eeee6f80654e75}{is\+Playing}}
+\begin{DoxyCompactList}\small\item\em Pointeur sur la variable is\+Playing pour savoir si le client est en train de jouer une musique. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{protoServer_8h_a3aa43bce8a9cbea9c2414c4e4a71c252}\label{protoServer_8h_a3aa43bce8a9cbea9c2414c4e4a71c252}} 
+int $\ast$ \mbox{\hyperlink{protoServer_8h_a3aa43bce8a9cbea9c2414c4e4a71c252}{is\+Choosing}}
+\begin{DoxyCompactList}\small\item\em Pointeur sur la variable is\+Choosing pour savoir si le client est en train de choisir une musique. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{protoServer_8h_a0e18300528e54d436a8bce8f01238424}\label{protoServer_8h_a0e18300528e54d436a8bce8f01238424}} 
+int \mbox{\hyperlink{protoServer_8h_a0e18300528e54d436a8bce8f01238424}{shm\+\_\+id}}
+\begin{DoxyCompactList}\small\item\em Identifiant de la mémoire partagée. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{protoServer_8h_ab9acb9cf9387a0f26991afa843f7f2fc}\label{protoServer_8h_ab9acb9cf9387a0f26991afa843f7f2fc}} 
+int \mbox{\hyperlink{protoServer_8h_ab9acb9cf9387a0f26991afa843f7f2fc}{shm\+\_\+size}}
+\begin{DoxyCompactList}\small\item\em Taille de la mémoire partagée. \end{DoxyCompactList}\item 
+void $\ast$ \mbox{\hyperlink{protoServer_8h_ad0b45240bc1c9eb24da2e316a6b8a70d}{shm\+\_\+ptr}}
+\begin{DoxyCompactList}\small\item\em Pointeur sur la mémoire partagée. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Fichier d\textquotesingle{}entête de proto\+Server.\+c. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{protoServer_8h_a68c98a070cc57c3b14833c9e497d172b}\label{protoServer_8h_a68c98a070cc57c3b14833c9e497d172b}} 
+\index{protoServer.h@{protoServer.h}!handle\_client@{handle\_client}}
+\index{handle\_client@{handle\_client}!protoServer.h@{protoServer.h}}
+\doxysubsubsection{\texorpdfstring{handle\_client()}{handle\_client()}}
+{\footnotesize\ttfamily void handle\+\_\+client (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} $\ast$}]{client\+\_\+socket }\end{DoxyParamCaption})}
+
+
+
+Fonction qui gère les demandes des clients. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em client\+\_\+socket} & Pointeur sur le socket du client \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void
+\end{DoxyReturn}
+Cette fonction gère les demandes des clients \mbox{\Hypertarget{protoServer_8h_a81248a37ab3618d6ec3c0c3b23373555}\label{protoServer_8h_a81248a37ab3618d6ec3c0c3b23373555}} 
+\index{protoServer.h@{protoServer.h}!myRadio@{myRadio}}
+\index{myRadio@{myRadio}!protoServer.h@{protoServer.h}}
+\doxysubsubsection{\texorpdfstring{myRadio()}{myRadio()}}
+{\footnotesize\ttfamily void my\+Radio (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Fonction qui crée un processus fils pour jouer la musique. 
+
+\begin{DoxyReturn}{Returns}
+void
+\end{DoxyReturn}
+Cette fonction crée un processus fils pour jouer la musique et gerer les memoires partagees \mbox{\Hypertarget{protoServer_8h_a7f0b6e7252811bd605347408c4db8023}\label{protoServer_8h_a7f0b6e7252811bd605347408c4db8023}} 
+\index{protoServer.h@{protoServer.h}!sendCurrentMusic@{sendCurrentMusic}}
+\index{sendCurrentMusic@{sendCurrentMusic}!protoServer.h@{protoServer.h}}
+\doxysubsubsection{\texorpdfstring{sendCurrentMusic()}{sendCurrentMusic()}}
+{\footnotesize\ttfamily void send\+Current\+Music (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} $\ast$}]{client\+\_\+socket }\end{DoxyParamCaption})}
+
+
+
+Fonction qui envoie la musique en cours de lecture au client. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em client\+\_\+socket} & Pointeur sur le socket du client \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void
+\end{DoxyReturn}
+Cette fonction envoie la musique en cours de lecture au client \mbox{\Hypertarget{protoServer_8h_ac479665acbe42080b0fb7acb01952c92}\label{protoServer_8h_ac479665acbe42080b0fb7acb01952c92}} 
+\index{protoServer.h@{protoServer.h}!sendPlaylist@{sendPlaylist}}
+\index{sendPlaylist@{sendPlaylist}!protoServer.h@{protoServer.h}}
+\doxysubsubsection{\texorpdfstring{sendPlaylist()}{sendPlaylist()}}
+{\footnotesize\ttfamily void send\+Playlist (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structsocket__t}{socket\+\_\+t}} $\ast$}]{client\+\_\+socket }\end{DoxyParamCaption})}
+
+
+
+Fonction qui envoie la playlist au client. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em client\+\_\+socket} & Pointeur sur le socket du client \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void
+\end{DoxyReturn}
+Cette fonction envoie la playlist au client \mbox{\Hypertarget{protoServer_8h_a47804b6bb285a7dcd8fed4f76ea6d90f}\label{protoServer_8h_a47804b6bb285a7dcd8fed4f76ea6d90f}} 
+\index{protoServer.h@{protoServer.h}!server@{server}}
+\index{server@{server}!protoServer.h@{protoServer.h}}
+\doxysubsubsection{\texorpdfstring{server()}{server()}}
+{\footnotesize\ttfamily void server (\begin{DoxyParamCaption}\item[{char $\ast$}]{addr\+IPsrv,  }\item[{short}]{server\+\_\+port }\end{DoxyParamCaption})}
+
+
+
+Fonction qui crée un serveur pour écouter les demandes des clients. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em addr\+IPsrv} & Adresse IP du serveur \\
+\hline
+{\em server\+\_\+port} & Port du serveur \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void
+\end{DoxyReturn}
+Cette fonction crée un serveur pour écouter les demandes des clients 
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{protoServer_8h_ad0b45240bc1c9eb24da2e316a6b8a70d}\label{protoServer_8h_ad0b45240bc1c9eb24da2e316a6b8a70d}} 
+\index{protoServer.h@{protoServer.h}!shm\_ptr@{shm\_ptr}}
+\index{shm\_ptr@{shm\_ptr}!protoServer.h@{protoServer.h}}
+\doxysubsubsection{\texorpdfstring{shm\_ptr}{shm\_ptr}}
+{\footnotesize\ttfamily void$\ast$ shm\+\_\+ptr\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Pointeur sur la mémoire partagée. 
+
+Ces variables sont utilisées pour la communication entre le serveur et son processus fils 

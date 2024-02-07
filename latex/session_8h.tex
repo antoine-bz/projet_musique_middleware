@@ -1,0 +1,265 @@
+\hypertarget{session_8h}{}\doxysection{session.\+h File Reference}
+\label{session_8h}\index{session.h@{session.h}}
+
+
+fichier d\textquotesingle{}entête de session.\+c  
+
+
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$sys/types.\+h$>$}\newline
+{\ttfamily \#include $<$sys/socket.\+h$>$}\newline
+{\ttfamily \#include $<$netinet/in.\+h$>$}\newline
+{\ttfamily \#include $<$arpa/inet.\+h$>$}\newline
+Include dependency graph for session.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{session_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=260pt]{session_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{session_8h_ad3fe337408f16c132c895f2b59326410}{CHECK}}(sts,  msg)~if ((sts) == -\/1) \{perror(msg);exit(-\/1);\}
+\begin{DoxyCompactList}\small\item\em macro de vérification de l\textquotesingle{}état d\textquotesingle{}une fonction \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{session_8h_a79dd28a89e5a96c0a2a4d359550802d9}{creer\+Socket}} (int mode)
+\begin{DoxyCompactList}\small\item\em fonction de création d\textquotesingle{}une socket dans un mode donné \end{DoxyCompactList}\item 
+struct sockaddr\+\_\+in \mbox{\hyperlink{session_8h_ad02de53c65e5e3baba7e215212955ef9}{creer\+Addr}} (char $\ast$addr\+IP, short port)
+\begin{DoxyCompactList}\small\item\em fonction de création d\textquotesingle{}une structure sockaddr\+\_\+in \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{session_8h_a300bfcc11f26c26ebbd4a8e007228569}{creer\+Socket\+Addr}} (int mode, char $\ast$addr\+IP, short port)
+\begin{DoxyCompactList}\small\item\em fonction de création d\textquotesingle{}une socket dans un mode donné \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{session_8h_a4ac950b2e958f1e84e64fe8cd38847fa}{creer\+Socket\+Ecoute}} (char $\ast$addr\+IP, short port, short max\+Clts)
+\begin{DoxyCompactList}\small\item\em fonction de création d\textquotesingle{}une socket en mode écoute \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{session_8h_acd4da4db9c9ab1626fb2a311dec862d3}{connecter}} (char $\ast$addr\+IPsrv, short port)
+\begin{DoxyCompactList}\small\item\em fonction de connexion à un service \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{session_8h_a841163773f900e1d019bc61426277971}{accepter}} (int sock\+Ecoute)
+\begin{DoxyCompactList}\small\item\em fonction d\textquotesingle{}acceptation d\textquotesingle{}une connexion \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{session_8h_a2a9a431f455a7d768aea838020b11e90}{ecrire}} (int sock, char $\ast$msg, int taille)
+\begin{DoxyCompactList}\small\item\em fonction d\textquotesingle{}écriture d\textquotesingle{}un message sur une socket \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{session_8h_ac546ee40263aa169d3ef9661685682f7}{lire}} (int sock, char $\ast$msg, int taille)
+\begin{DoxyCompactList}\small\item\em fonction de lecture d\textquotesingle{}un message sur une socket \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{session_8h_adc9ed4698975ac9920151a71b6812d20}{fermer}} (int sock)
+\begin{DoxyCompactList}\small\item\em fonction de fermeture d\textquotesingle{}une socket \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+fichier d\textquotesingle{}entête de session.\+c 
+
+\begin{DoxyAuthor}{Author}
+Boez Antoine 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{session_8h_ad3fe337408f16c132c895f2b59326410}\label{session_8h_ad3fe337408f16c132c895f2b59326410}} 
+\index{session.h@{session.h}!CHECK@{CHECK}}
+\index{CHECK@{CHECK}!session.h@{session.h}}
+\doxysubsubsection{\texorpdfstring{CHECK}{CHECK}}
+{\footnotesize\ttfamily \#define CHECK(\begin{DoxyParamCaption}\item[{}]{sts,  }\item[{}]{msg }\end{DoxyParamCaption})~if ((sts) == -\/1) \{perror(msg);exit(-\/1);\}}
+
+
+
+macro de vérification de l\textquotesingle{}état d\textquotesingle{}une fonction 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sts} & \+: fournit le résultat de la fonction \\
+\hline
+{\em msg} & \+: fournit le message d\textquotesingle{}erreur à afficher \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{session_8h_a841163773f900e1d019bc61426277971}\label{session_8h_a841163773f900e1d019bc61426277971}} 
+\index{session.h@{session.h}!accepter@{accepter}}
+\index{accepter@{accepter}!session.h@{session.h}}
+\doxysubsubsection{\texorpdfstring{accepter()}{accepter()}}
+{\footnotesize\ttfamily int accepter (\begin{DoxyParamCaption}\item[{int}]{sock\+Ecoute }\end{DoxyParamCaption})}
+
+
+
+fonction d\textquotesingle{}acceptation d\textquotesingle{}une connexion 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sock\+Ecoute} & \+: fournit le numéro de fd de la socket d\textquotesingle{}écoute \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+numéro de fd de la socket créée 
+\end{DoxyReturn}
+\mbox{\Hypertarget{session_8h_acd4da4db9c9ab1626fb2a311dec862d3}\label{session_8h_acd4da4db9c9ab1626fb2a311dec862d3}} 
+\index{session.h@{session.h}!connecter@{connecter}}
+\index{connecter@{connecter}!session.h@{session.h}}
+\doxysubsubsection{\texorpdfstring{connecter()}{connecter()}}
+{\footnotesize\ttfamily int connecter (\begin{DoxyParamCaption}\item[{char $\ast$}]{addr\+IPsrv,  }\item[{short}]{port }\end{DoxyParamCaption})}
+
+
+
+fonction de connexion à un service 
+
+
+\begin{DoxyParams}{Parameters}
+{\em addr\+IPsrv} & \+: fournit l\textquotesingle{}adresse IP du service à contacter \\
+\hline
+{\em port} & \+: fournit le port du service à contacter \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+numéro de fd de la socket créée 
+\end{DoxyReturn}
+\mbox{\Hypertarget{session_8h_ad02de53c65e5e3baba7e215212955ef9}\label{session_8h_ad02de53c65e5e3baba7e215212955ef9}} 
+\index{session.h@{session.h}!creerAddr@{creerAddr}}
+\index{creerAddr@{creerAddr}!session.h@{session.h}}
+\doxysubsubsection{\texorpdfstring{creerAddr()}{creerAddr()}}
+{\footnotesize\ttfamily struct sockaddr\+\_\+in creer\+Addr (\begin{DoxyParamCaption}\item[{char $\ast$}]{addr\+IP,  }\item[{short}]{port }\end{DoxyParamCaption})}
+
+
+
+fonction de création d\textquotesingle{}une structure sockaddr\+\_\+in 
+
+
+\begin{DoxyParams}{Parameters}
+{\em addr\+IP} & \+: fournit l\textquotesingle{}adresse IP de la socket à créer \\
+\hline
+{\em port} & \+: fournit le port de la socket à créer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+structure sockaddr\+\_\+in créée 
+\end{DoxyReturn}
+\mbox{\Hypertarget{session_8h_a79dd28a89e5a96c0a2a4d359550802d9}\label{session_8h_a79dd28a89e5a96c0a2a4d359550802d9}} 
+\index{session.h@{session.h}!creerSocket@{creerSocket}}
+\index{creerSocket@{creerSocket}!session.h@{session.h}}
+\doxysubsubsection{\texorpdfstring{creerSocket()}{creerSocket()}}
+{\footnotesize\ttfamily int creer\+Socket (\begin{DoxyParamCaption}\item[{int}]{mode }\end{DoxyParamCaption})}
+
+
+
+fonction de création d\textquotesingle{}une socket dans un mode donné 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mode} & \+: fournit le mode de la socket à créer (SOCK\+\_\+\+DGRAM/ SOCK\+\_\+\+STREAM) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+numéro de fd de la socket créée 
+\end{DoxyReturn}
+\mbox{\Hypertarget{session_8h_a300bfcc11f26c26ebbd4a8e007228569}\label{session_8h_a300bfcc11f26c26ebbd4a8e007228569}} 
+\index{session.h@{session.h}!creerSocketAddr@{creerSocketAddr}}
+\index{creerSocketAddr@{creerSocketAddr}!session.h@{session.h}}
+\doxysubsubsection{\texorpdfstring{creerSocketAddr()}{creerSocketAddr()}}
+{\footnotesize\ttfamily int creer\+Socket\+Addr (\begin{DoxyParamCaption}\item[{int}]{mode,  }\item[{char $\ast$}]{addr\+IP,  }\item[{short}]{port }\end{DoxyParamCaption})}
+
+
+
+fonction de création d\textquotesingle{}une socket dans un mode donné 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mode} & \+: fournit le mode de la socket à créer (SOCK\+\_\+\+DGRAM/ SOCK\+\_\+\+STREAM) \\
+\hline
+{\em addr\+IP} & \+: fournit l\textquotesingle{}adresse IP de la socket à créer \\
+\hline
+{\em port} & \+: fournit le port de la socket à créer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+numéro de fd de la socket créée 
+\end{DoxyReturn}
+\mbox{\Hypertarget{session_8h_a4ac950b2e958f1e84e64fe8cd38847fa}\label{session_8h_a4ac950b2e958f1e84e64fe8cd38847fa}} 
+\index{session.h@{session.h}!creerSocketEcoute@{creerSocketEcoute}}
+\index{creerSocketEcoute@{creerSocketEcoute}!session.h@{session.h}}
+\doxysubsubsection{\texorpdfstring{creerSocketEcoute()}{creerSocketEcoute()}}
+{\footnotesize\ttfamily int creer\+Socket\+Ecoute (\begin{DoxyParamCaption}\item[{char $\ast$}]{addr\+IP,  }\item[{short}]{port,  }\item[{short}]{max\+Clts }\end{DoxyParamCaption})}
+
+
+
+fonction de création d\textquotesingle{}une socket en mode écoute 
+
+
+\begin{DoxyParams}{Parameters}
+{\em addr\+IP} & \+: fournit l\textquotesingle{}adresse IP de la socket à créer \\
+\hline
+{\em port} & \+: fournit le port de la socket à créer \\
+\hline
+{\em max\+Clts} & \+: fournit le nombre maximum de clients à accepter \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+numéro de fd de la socket créée 
+\end{DoxyReturn}
+\mbox{\Hypertarget{session_8h_a2a9a431f455a7d768aea838020b11e90}\label{session_8h_a2a9a431f455a7d768aea838020b11e90}} 
+\index{session.h@{session.h}!ecrire@{ecrire}}
+\index{ecrire@{ecrire}!session.h@{session.h}}
+\doxysubsubsection{\texorpdfstring{ecrire()}{ecrire()}}
+{\footnotesize\ttfamily int ecrire (\begin{DoxyParamCaption}\item[{int}]{sock,  }\item[{char $\ast$}]{msg,  }\item[{int}]{taille }\end{DoxyParamCaption})}
+
+
+
+fonction d\textquotesingle{}écriture d\textquotesingle{}un message sur une socket 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sock} & \+: fournit le numéro de fd de la socket \\
+\hline
+{\em msg} & \+: fournit le message à écrire \\
+\hline
+{\em taille} & \+: fournit la taille du message à écrire \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+nombre d\textquotesingle{}octets écrits 
+\end{DoxyReturn}
+\mbox{\Hypertarget{session_8h_adc9ed4698975ac9920151a71b6812d20}\label{session_8h_adc9ed4698975ac9920151a71b6812d20}} 
+\index{session.h@{session.h}!fermer@{fermer}}
+\index{fermer@{fermer}!session.h@{session.h}}
+\doxysubsubsection{\texorpdfstring{fermer()}{fermer()}}
+{\footnotesize\ttfamily void fermer (\begin{DoxyParamCaption}\item[{int}]{sock }\end{DoxyParamCaption})}
+
+
+
+fonction de fermeture d\textquotesingle{}une socket 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sock} & \+: fournit le numéro de fd de la socket \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{session_8h_ac546ee40263aa169d3ef9661685682f7}\label{session_8h_ac546ee40263aa169d3ef9661685682f7}} 
+\index{session.h@{session.h}!lire@{lire}}
+\index{lire@{lire}!session.h@{session.h}}
+\doxysubsubsection{\texorpdfstring{lire()}{lire()}}
+{\footnotesize\ttfamily int lire (\begin{DoxyParamCaption}\item[{int}]{sock,  }\item[{char $\ast$}]{msg,  }\item[{int}]{taille }\end{DoxyParamCaption})}
+
+
+
+fonction de lecture d\textquotesingle{}un message sur une socket 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sock} & \+: fournit le numéro de fd de la socket \\
+\hline
+{\em msg} & \+: fournit le message à lire \\
+\hline
+{\em taille} & \+: fournit la taille du message à lire \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+nombre d\textquotesingle{}octets lus 
+\end{DoxyReturn}

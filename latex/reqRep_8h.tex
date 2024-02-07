@@ -1,0 +1,205 @@
+\hypertarget{reqRep_8h}{}\doxysection{req\+Rep.\+h File Reference}
+\label{reqRep_8h}\index{reqRep.h@{reqRep.h}}
+
+
+Fichier d\textquotesingle{}entête de req\+Rep.\+c.  
+
+
+{\ttfamily \#include \char`\"{}data.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$signal.\+h$>$}\newline
+{\ttfamily \#include $<$sys/wait.\+h$>$}\newline
+{\ttfamily \#include $<$fcntl.\+h$>$}\newline
+{\ttfamily \#include $<$sys/mman.\+h$>$}\newline
+{\ttfamily \#include $<$sys/stat.\+h$>$}\newline
+Include dependency graph for req\+Rep.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{reqRep_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=260pt]{reqRep_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structMusicMessage}{Music\+Message}}
+\begin{DoxyCompactList}\small\item\em Structure pour les messages de musique. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{reqRep_8h_ad3fe337408f16c132c895f2b59326410}{CHECK}}(sts,  msg)~if ((sts) == -\/1) \{perror(msg);exit(-\/1);\}
+\begin{DoxyCompactList}\small\item\em Vérifier si une fonction a réussi. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{reqRep_8h_a4080c060d2fe2fe06b784af68271e3b8}{CHECK\+\_\+\+FILE}}(sts,  msg)~if ((sts) == NULL) \{perror(msg);exit(-\/1);\}
+\begin{DoxyCompactList}\small\item\em Vérifier si un fichier a été ouvert. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{reqRep_8h_a93607ec65d8619a63a76097b4443534b}{CHECK\+\_\+\+SHM}}(sts,  msg)~if ((sts) == (void $\ast$) -\/1) \{perror(msg);exit(-\/1);\}
+\begin{DoxyCompactList}\small\item\em Vérifier si la mémoire partagée a été créée. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{reqRep_8h_a4b70916bdf28ed7afd94e4fb98230a90}\label{reqRep_8h_a4b70916bdf28ed7afd94e4fb98230a90}} 
+\#define \mbox{\hyperlink{reqRep_8h_a4b70916bdf28ed7afd94e4fb98230a90}{MAX\+\_\+\+BUFF}}~1024
+\begin{DoxyCompactList}\small\item\em Taille maximale du buffer. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{reqRep_8h_ad111e603bbebe5d87f6bc39264ce4733}\label{reqRep_8h_ad111e603bbebe5d87f6bc39264ce4733}} 
+\#define \mbox{\hyperlink{reqRep_8h_ad111e603bbebe5d87f6bc39264ce4733}{EXIT}}~\char`\"{}exit\char`\"{}
+\begin{DoxyCompactList}\small\item\em Message pour quitter. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{reqRep_8h_aa8cecfc5c5c054d2875c03e77b7be15d}\label{reqRep_8h_aa8cecfc5c5c054d2875c03e77b7be15d}} 
+\#define \mbox{\hyperlink{reqRep_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}}~1
+\begin{DoxyCompactList}\small\item\em Vrai. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{reqRep_8h_aa93f0eb578d23995850d61f7d61c55c1}\label{reqRep_8h_aa93f0eb578d23995850d61f7d61c55c1}} 
+\#define \mbox{\hyperlink{reqRep_8h_aa93f0eb578d23995850d61f7d61c55c1}{FALSE}}~0
+\begin{DoxyCompactList}\small\item\em Faux. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{reqRep_8h_a40eaac0f312394e90b62c6674a0c5173}\label{reqRep_8h_a40eaac0f312394e90b62c6674a0c5173}} 
+\#define \mbox{\hyperlink{reqRep_8h_a40eaac0f312394e90b62c6674a0c5173}{PLAYLIST\+\_\+\+RETURN}}~1
+\begin{DoxyCompactList}\small\item\em Type de message pour retourner la playlist. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{reqRep_8h_a74faab7bd49b7e8531be7ac6cc769c64}\label{reqRep_8h_a74faab7bd49b7e8531be7ac6cc769c64}} 
+\#define \mbox{\hyperlink{reqRep_8h_a74faab7bd49b7e8531be7ac6cc769c64}{SEND\+\_\+\+MUSIC\+\_\+\+CHOICE}}~2
+\begin{DoxyCompactList}\small\item\em Type de message pour envoyer le choix de musique. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{reqRep_8h_a98d447a7d6c8b7a46f78b17eae96495e}\label{reqRep_8h_a98d447a7d6c8b7a46f78b17eae96495e}} 
+\#define \mbox{\hyperlink{reqRep_8h_a98d447a7d6c8b7a46f78b17eae96495e}{SEND\+\_\+\+MUSIC\+\_\+\+REQUEST}}~3
+\begin{DoxyCompactList}\small\item\em Type de message pour envoyer la demande de musique. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{reqRep_8h_ac29970df48a22f0726da9b4c7bb44259}\label{reqRep_8h_ac29970df48a22f0726da9b4c7bb44259}} 
+\#define \mbox{\hyperlink{reqRep_8h_ac29970df48a22f0726da9b4c7bb44259}{MUSIC\+\_\+\+RETURN}}~4
+\begin{DoxyCompactList}\small\item\em Type de message pour retourner la musique. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{reqRep_8h_afa8838858e0d6dc1485a52ec85880552}\label{reqRep_8h_afa8838858e0d6dc1485a52ec85880552}} 
+\#define \mbox{\hyperlink{reqRep_8h_afa8838858e0d6dc1485a52ec85880552}{SEND\+\_\+\+CURRENT\+\_\+\+TIME\+\_\+\+REQ}}~5
+\begin{DoxyCompactList}\small\item\em Type de message pour envoyer la demande de temps courant. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{reqRep_8h_afcccde4ce79c32af6f94f1ff284a3528}\label{reqRep_8h_afcccde4ce79c32af6f94f1ff284a3528}} 
+\#define \mbox{\hyperlink{reqRep_8h_afcccde4ce79c32af6f94f1ff284a3528}{CURRENT\+\_\+\+TIME\+\_\+\+RETURN}}~6
+\begin{DoxyCompactList}\small\item\em Type de message pour retourner le temps courant. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{reqRep_8h_ad24e2b54375e12474e65ebf7175988fb}{QUIT}}~7
+\begin{DoxyCompactList}\small\item\em Type de message pour quitter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{reqRep_8h_af3c9c9e648eb422e8a1a08a2bba7e108}\label{reqRep_8h_af3c9c9e648eb422e8a1a08a2bba7e108}} 
+typedef char {\bfseries buffer\+\_\+t}\mbox{[}\mbox{\hyperlink{reqRep_8h_a4b70916bdf28ed7afd94e4fb98230a90}{MAX\+\_\+\+BUFF}}\mbox{]}
+\item 
+\mbox{\Hypertarget{reqRep_8h_a58f2a4a23212c9b373bf22144c7ef27d}\label{reqRep_8h_a58f2a4a23212c9b373bf22144c7ef27d}} 
+typedef struct \mbox{\hyperlink{structMusicMessage}{Music\+Message}} {\bfseries Music\+Message}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{reqRep_8h_a02fa9bb3d236fc3d78b01acb35f281e2}{serialize\+Music\+Message}} (\mbox{\hyperlink{data_8h_a87b291a0e81b4fdb9738eb3b480ced42}{generic}} quoi, \mbox{\hyperlink{data_8h_ae3ca16da34c140567a2ce7adef3f1610}{buffer\+\_\+t}} buff)
+\begin{DoxyCompactList}\small\item\em Fonction qui sérialise un message de musique. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{reqRep_8h_a51229b9495fc9d6b7ef6bacc6eed9eaa}{deserialize\+Music\+Message}} (\mbox{\hyperlink{data_8h_ae3ca16da34c140567a2ce7adef3f1610}{buffer\+\_\+t}} buff, \mbox{\hyperlink{data_8h_a87b291a0e81b4fdb9738eb3b480ced42}{generic}} quoi)
+\begin{DoxyCompactList}\small\item\em Fonction qui désérialise un message de musique. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Fichier d\textquotesingle{}entête de req\+Rep.\+c. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{reqRep_8h_ad3fe337408f16c132c895f2b59326410}\label{reqRep_8h_ad3fe337408f16c132c895f2b59326410}} 
+\index{reqRep.h@{reqRep.h}!CHECK@{CHECK}}
+\index{CHECK@{CHECK}!reqRep.h@{reqRep.h}}
+\doxysubsubsection{\texorpdfstring{CHECK}{CHECK}}
+{\footnotesize\ttfamily \#define CHECK(\begin{DoxyParamCaption}\item[{}]{sts,  }\item[{}]{msg }\end{DoxyParamCaption})~if ((sts) == -\/1) \{perror(msg);exit(-\/1);\}}
+
+
+
+Vérifier si une fonction a réussi. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sts} & Statut \\
+\hline
+{\em msg} & Message \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{reqRep_8h_a4080c060d2fe2fe06b784af68271e3b8}\label{reqRep_8h_a4080c060d2fe2fe06b784af68271e3b8}} 
+\index{reqRep.h@{reqRep.h}!CHECK\_FILE@{CHECK\_FILE}}
+\index{CHECK\_FILE@{CHECK\_FILE}!reqRep.h@{reqRep.h}}
+\doxysubsubsection{\texorpdfstring{CHECK\_FILE}{CHECK\_FILE}}
+{\footnotesize\ttfamily \#define CHECK\+\_\+\+FILE(\begin{DoxyParamCaption}\item[{}]{sts,  }\item[{}]{msg }\end{DoxyParamCaption})~if ((sts) == NULL) \{perror(msg);exit(-\/1);\}}
+
+
+
+Vérifier si un fichier a été ouvert. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sts} & Statut \\
+\hline
+{\em msg} & Message \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{reqRep_8h_a93607ec65d8619a63a76097b4443534b}\label{reqRep_8h_a93607ec65d8619a63a76097b4443534b}} 
+\index{reqRep.h@{reqRep.h}!CHECK\_SHM@{CHECK\_SHM}}
+\index{CHECK\_SHM@{CHECK\_SHM}!reqRep.h@{reqRep.h}}
+\doxysubsubsection{\texorpdfstring{CHECK\_SHM}{CHECK\_SHM}}
+{\footnotesize\ttfamily \#define CHECK\+\_\+\+SHM(\begin{DoxyParamCaption}\item[{}]{sts,  }\item[{}]{msg }\end{DoxyParamCaption})~if ((sts) == (void $\ast$) -\/1) \{perror(msg);exit(-\/1);\}}
+
+
+
+Vérifier si la mémoire partagée a été créée. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sts} & Statut \\
+\hline
+{\em msg} & Message \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{reqRep_8h_ad24e2b54375e12474e65ebf7175988fb}\label{reqRep_8h_ad24e2b54375e12474e65ebf7175988fb}} 
+\index{reqRep.h@{reqRep.h}!QUIT@{QUIT}}
+\index{QUIT@{QUIT}!reqRep.h@{reqRep.h}}
+\doxysubsubsection{\texorpdfstring{QUIT}{QUIT}}
+{\footnotesize\ttfamily \#define QUIT~7}
+
+
+
+Type de message pour quitter. 
+
+Ces constantes sont utilisées pour les types de messages 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{reqRep_8h_a51229b9495fc9d6b7ef6bacc6eed9eaa}\label{reqRep_8h_a51229b9495fc9d6b7ef6bacc6eed9eaa}} 
+\index{reqRep.h@{reqRep.h}!deserializeMusicMessage@{deserializeMusicMessage}}
+\index{deserializeMusicMessage@{deserializeMusicMessage}!reqRep.h@{reqRep.h}}
+\doxysubsubsection{\texorpdfstring{deserializeMusicMessage()}{deserializeMusicMessage()}}
+{\footnotesize\ttfamily void deserialize\+Music\+Message (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{data_8h_ae3ca16da34c140567a2ce7adef3f1610}{buffer\+\_\+t}}}]{buff,  }\item[{\mbox{\hyperlink{data_8h_a87b291a0e81b4fdb9738eb3b480ced42}{generic}}}]{quoi }\end{DoxyParamCaption})}
+
+
+
+Fonction qui désérialise un message de musique. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em buff} & Buffer \\
+\hline
+{\em quoi} & Message de musique \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void
+\end{DoxyReturn}
+Cette fonction désérialise un message de musique \mbox{\Hypertarget{reqRep_8h_a02fa9bb3d236fc3d78b01acb35f281e2}\label{reqRep_8h_a02fa9bb3d236fc3d78b01acb35f281e2}} 
+\index{reqRep.h@{reqRep.h}!serializeMusicMessage@{serializeMusicMessage}}
+\index{serializeMusicMessage@{serializeMusicMessage}!reqRep.h@{reqRep.h}}
+\doxysubsubsection{\texorpdfstring{serializeMusicMessage()}{serializeMusicMessage()}}
+{\footnotesize\ttfamily void serialize\+Music\+Message (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{data_8h_a87b291a0e81b4fdb9738eb3b480ced42}{generic}}}]{quoi,  }\item[{\mbox{\hyperlink{data_8h_ae3ca16da34c140567a2ce7adef3f1610}{buffer\+\_\+t}}}]{buff }\end{DoxyParamCaption})}
+
+
+
+Fonction qui sérialise un message de musique. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em quoi} & Message de musique \\
+\hline
+{\em buff} & Buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void
+\end{DoxyReturn}
+Cette fonction sérialise un message de musique 

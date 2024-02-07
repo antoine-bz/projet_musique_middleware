@@ -1,0 +1,47 @@
+\hypertarget{structMusicMessage}{}\doxysection{Music\+Message Struct Reference}
+\label{structMusicMessage}\index{MusicMessage@{MusicMessage}}
+
+
+Structure pour les messages de musique.  
+
+
+
+
+{\ttfamily \#include $<$req\+Rep.\+h$>$}
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structMusicMessage_ad7608c1ddc1a9721c78a47dc83b90e11}\label{structMusicMessage_ad7608c1ddc1a9721c78a47dc83b90e11}} 
+int {\bfseries type}
+\item 
+\mbox{\Hypertarget{structMusicMessage_a7873573bc267943581226484e0059c57}\label{structMusicMessage_a7873573bc267943581226484e0059c57}} 
+char {\bfseries current\+\_\+music} \mbox{[}\mbox{\hyperlink{reqRep_8h_a4b70916bdf28ed7afd94e4fb98230a90}{MAX\+\_\+\+BUFF}}\mbox{]}
+\item 
+\mbox{\Hypertarget{structMusicMessage_acd6d414357bb59cda2d9ae01d0cf7c7c}\label{structMusicMessage_acd6d414357bb59cda2d9ae01d0cf7c7c}} 
+int {\bfseries current\+\_\+time}
+\item 
+\mbox{\Hypertarget{structMusicMessage_ac835117fe417399a159f028f08de6ae4}\label{structMusicMessage_ac835117fe417399a159f028f08de6ae4}} 
+char {\bfseries playlist} \mbox{[}\mbox{\hyperlink{reqRep_8h_a4b70916bdf28ed7afd94e4fb98230a90}{MAX\+\_\+\+BUFF}}\mbox{]}\mbox{[}\mbox{\hyperlink{reqRep_8h_a4b70916bdf28ed7afd94e4fb98230a90}{MAX\+\_\+\+BUFF}}\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Structure pour les messages de musique. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & Type de message \\
+\hline
+{\em current\+\_\+music} & Nom de la chanson courante \\
+\hline
+{\em current\+\_\+time} & Temps courant de la chanson en millisec \\
+\hline
+{\em playlist} & Nom de la chanson courante\\
+\hline
+\end{DoxyParams}
+Cette structure est utilisée pour les messages de musique entre le client et le serveur 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{reqRep_8h}{req\+Rep.\+h}}\end{DoxyCompactItemize}

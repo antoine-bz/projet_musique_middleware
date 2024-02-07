@@ -1,0 +1,7 @@
+<map id="session.h" name="session.h">
+<area shape="rect" id="node1" title="fichier d&#39;entête de session.c" alt="" coords="83,5,165,32"/>
+<area shape="rect" id="node2" href="$data_8h.html" title="fichier d&#39;entête de data.c" alt="" coords="93,80,155,107"/>
+<area shape="rect" id="node3" href="$reqRep_8h.html" title="Fichier d&#39;entête de reqRep.c." alt="" coords="84,155,164,181"/>
+<area shape="rect" id="node4" href="$protoClient_8h.html" title="Fichier d&#39;entête de protoClient.c." alt="" coords="5,229,112,256"/>
+<area shape="rect" id="node5" href="$protoServer_8h.html" title="Fichier d&#39;entête de protoServer.c." alt="" coords="136,229,245,256"/>
+</map>
