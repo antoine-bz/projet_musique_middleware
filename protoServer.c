@@ -254,12 +254,11 @@ void myRadio(){
 
     CHECK_FILE(file, "Error opening file");
 
+    while (strlen(currentMusic) == 0);
+
     // on lit le fichier ligne par ligne a partir de la musique courante et on commence a jouer la musique a partir de la musique courante
-    while(1)
     while ((read = getline(&line, &len, file)) != -1) {
         *elapsedTime=0;
-
-        while (strlen(currentMusic) == 0);
         
         // on recupere le nom du fichier et la durée
         token = strtok(line, ";");
@@ -276,21 +275,18 @@ void myRadio(){
         // on formate la durée pour pouvoir l'utiliser dans sleep
         minutes = strtok(token, ":");
         seconds = strtok(NULL, ":");
-        totalSeconds = atoi(minutes)*60 + atoi(seconds)-20;
+        totalSeconds = atoi(minutes)*60 + atoi(seconds);
 
 
         *isChoosing = FALSE;
         *isPlaying = TRUE;
+        sleep(2);
         printf("Playing %s for %d seconds\n\n", file_name, totalSeconds);
         // on attend la durée de la musique et on incremente tempsEcoule de 1 tout les milliseconds sachant que totalSeconds est en secondes
         for (int i=0; i<totalSeconds*1000; i++) {
             usleep(1000);
             *elapsedTime += 1;
         }
-
-        *isPlaying = FALSE;
-        // On efface currentMusic
-        strcpy(currentMusic, "");
     }
     
 
